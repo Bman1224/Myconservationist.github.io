@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyConservationist | Boss's Profile</title>
+    <style>
+        /* Classic MySpace Green/Orange Palette */
+        body {
+            background-color: #f0f7ef;
+            background-image: url('https://www.transparenttextures.com');
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .main-wrapper {
+            width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid #336633;
+            padding: 15px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Status Box - The "New" Feature */
+        .status-box {
+            background: #fff8e1;
+            border: 1px solid #ffcc80;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .top-nav {
+            background: #336633;
+            color: #fff;
+            padding: 6px;
+            text-align: center;
+            font-size: 11px;
+            margin-bottom: 20px;
+        }
+        .top-nav a { color: #fff; text-decoration: none; margin: 0 8px; font-weight: bold; }
+
+        .profile-columns { display: flex; gap: 20px; }
+        .left-side { width: 300px; }
+        .right-side { width: 480px; }
+
+        .content-box { border: 1px solid #336633; margin-bottom: 15px; }
+        .box-head { background: #669966; color: #fff; padding: 4px 8px; font-weight: bold; font-size: 13px; }
+        .box-body { padding: 10px; font-size: 12px; line-height: 1.5; }
+
+        .profile-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+        .profile-img { width: 180px; border: 1px solid #ccc; padding: 5px; background: #fff; }
+        
+        .orange-link { color: #ff6600; font-weight: bold; text-decoration: none; }
+        
+        .friends-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
+        .friends-grid img { width: 90px; height: 90px; border: 1px solid #336633; }
+        .friends-grid span { display: block; font-size: 10px; margin-top: 2px; color: #336633; }
+
+        .player {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 11px;
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <!-- Top Nav -->
+    <div class="top-nav">
+        <a href="#">Home</a> | <a href="#">Browse</a> | <a href="#">Search</a> | <a href="#">Invite</a> | <a href="#">Mail</a> | <a href="#">Blog</a>
+    </div>
+
+    <!-- Boss's Daily Tip -->
+    <div class="status-box">
+        <b>Boss is:</b> <span style="color: #555;">Thinking about how i can save the Seals</span>
+        <div style="font-size: 10px; color: #999; margin-top: 4px;">Posted: 2 minutes ago</div>
+    </div>
+
+    <div class="profile-columns">
+        <!-- LEFT COLUMN -->
+        <div class="left-side">
+            <div class="profile-name">Boss</div>
+            
+            <img src="https://i.pinimg.com/736x/e1/80/8b/e1808bcab7248ff130360c93f4fc15ce.jpg class="profile-img">
+            
+            <p style="font-size:12px;"><b>"I'm just a guy making the world better."</b><br>
+            Male<br>Earth</p>
+
+            <div class="player">
+                <div style="font-size: 18px;">▶️</div>
+                <div><b>Eco-Track:</b><br>Rainforest Morning - <i>Nature Sounds</i></div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-head">Contacting Boss</div>
+                <div class="box-body">
+                    <table width="100%" style="font-size:11px;">
+                        <tr>
+                            <td><a href="#" class="orange-link">Send Message</a></td>
+                            <td><a href="#" class="orange-link">Add Friend</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#" class="orange-link">Add Favorite</a></td>
+                            <td><a href="#" class="orange-link">Rank Friend</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-head">Boss's Interests</div>
+                <div class="box-body">
+                    <b>General:</b> Composting, Fixing old bikes, Hiking.<br>
+                    <b>Music:</b> Acoustic stuff, anything with birds chirping in the background.
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="right-side">
+            <div style="border: 2px solid #669966; padding: 10px; margin-bottom: 20px; font-size: 14px; text-align: center; color: #336633;">
+                <b>Boss is your first friend on MyConservationist!</b>
+            </div>
+
+            <div class="content-box">
+                <div class="box-head">Boss's Blurbs</div>
+                <div class="box-body">
+                    <p><span class="orange-link">About me:</span><br>
+                    Hi, I'm Boss. I'm not a scientist or a politician I'm just a regular kid who loves the outdoors. I started this site because of a school project and now were here. A place where we could talk about simple ways to help the environment without it feeling like a chore. Whether it's planting a single tomato plant or picking up one piece of trash on a walk, it all counts!</p>
+                    
+                    <p><span class="orange-link">Who I'd like to meet:</span><br>
+                    People who are curious about living a bit greener. If you have a tip for reducing waste, leave me a comment!</p>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-head">Boss's Top 8</div>
+                <div class="box-body">
+                    <div class="friends-grid">
+                        <div><img src="https://via.placeholder.com"><span>RecycleGuy</span></div>
+                        <div><img src="https://via.placeholder.com"><span>TreeLover</span></div>
+                        <div><img src="https://via.placeholder.com"><span>OceanBlue</span></div>
+                        <div><img src="https://via.placeholder.com"><span>CompostJim</span></div>
+                        <div><img src="https://via.placeholder.com"><span>Windy</span></div>
+                        <div><img src="https://via.placeholder.com"><span>TheBees</span></div>
+                        <div><img src="https://via.placeholder.com"><span>SolarGirl</span></div>
+                        <div><img src="https://via.placeholder.com"><span>You!</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-head">Boss's Friend Comments</div>
+                <div class="box-body">
+                    <b>RecycleGuy:</b> "Hey Boss, thanks for the add! Digging the new site."<br><hr>
+                    <b>TreeLover:</b> "Did you see that new park they're building? Let's go!"
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<center style="font-size:10px; margin-top:20px; color:#999;">
+    MyConservationist ©2026 | Built by Boss
+</center>
+
+</body>
+</html>
+
