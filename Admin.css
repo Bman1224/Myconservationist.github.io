@@ -1,0 +1,18 @@
+/* Only for the Boss's Profile */
+.boss-profile-verified {
+    color: #003399;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+}
+
+.boss-profile-verified::after {
+    content: " (Creator)"; /* Or a custom icon */
+    font-size: 10px;
+    background: #6699cc;
+    color: white;
+    padding: 2px 5px;
+    margin-left: 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+}
