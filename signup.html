@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MyConservationist | Boss's Profile</title>
+    <title>MyConservationist | Signup</title>
     <style>
         /* Classic MySpace Green/Orange Palette */
         body {
@@ -17,9 +17,26 @@
             width: 800px;
             margin: 0 auto;
             background: #fff;
+            <div>
+          
+
             border: 1px solid #d5e1ef;
             padding: 15px;
             box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
         }
+<form id="signupForm" action="/register" method="POST">
+    <!-- User inputs go here -->
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
 
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required minlength="8">
+
+    <!-- The Sign-Up Button -->
+    <button type="submit" class="signup-btn">Sign Up</button>
+</form>
+        
 </html>
