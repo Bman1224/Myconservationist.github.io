@@ -2,39 +2,75 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MyConservationist | Signup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
     <style>
-        <body> {
-            background-color: #d5e1ef;
-            background-image: url('https://www.transparenttextures.com');
-            font-family: Verdana, Arial, Helvetica, sans-serif;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
-
-        .main-wrapper {
-            width: 800px;
-            margin: 0 auto;
-            background: #fff;
-            <div>
-          
-
-            border: 1px solid #d5e1ef;
-            padding: 15px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        .container {
+            width: 300px;
+            margin: auto;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #ccc;
         }
-<form id="signupForm" action="/register" method="POST">
-    <!-- User inputs go here -->
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
+        h2 {
+            text-align: center;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 4px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <input type="text" id="name" name="name" placeholder="Full Name" required>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Sign Up">
+        </form>
+    </div>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
+    <script>
+        document.getElementById('signupForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required minlength="8">
-
-    <button type="submit" class="signup-btn">Sign Up</button>
-</form>
-        
+            const response = await fetch('https://your-backend-api.com/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, password }),
+            });
+            const data = await response.json();
+            alert(data.message);
+        };
+    </script>
+</body>
 </html>
