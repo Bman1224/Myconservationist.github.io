@@ -1,1 +1,203 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Login</title>\n</head>\n<body>\n    <h2>Login Form</h2>\n    <form id="loginForm" onsubmit="return validateForm()">\n        <label for="username">Username:</label><br>\n        <input type="text" id="username" name="username" required><br>\n        <label for="password">Password:</label><br>\n        <input type="password" id="password" name="password" required><br><br>\n        <input type="submit" value="Login">\n    </form>\n    <script>\n        function validateForm() {\n            const username = document.getElementById('username').value;\n            const password = document.getElementById('password').value;\n            if (username === '' || password === '') {\n                alert('Please fill in all fields.');\n                return false;\n            }\n            // Add your backend authentication logic here\n            return true;\n        }\n    </script>\n</body>\n</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyConservationist | Login</title>
+    <style>
+        body {
+            background-color: #d5e1ef;
+            background-image: url('https://www.transparenttextures.com');
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .main-wrapper {
+            width: 500px;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid #d5e1ef;
+            padding: 30px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .top-nav {
+            background: #336633;
+            color: #fff;
+            padding: 6px;
+            text-align: center;
+            font-size: 11px;
+            margin-bottom: 20px;
+        }
+        .top-nav a { color: #6699cc; text-decoration: none; margin: 0 8px; font-weight: bold; }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #336633;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+            font-size: 12px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 12px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border: 1px solid #6699cc;
+            background-color: #f9f9f9;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #336633;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .login-btn:hover {
+            background-color: #2d5a2d;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 12px;
+            text-align: center;
+            display: none;
+            margin: 15px 0;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .remember-me input {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        .signup-link a {
+            color: #6699cc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="top-nav">
+        <a href="index.html">Home</a> | 
+        <a href="browse.html">Browse</a> | 
+        <a href="search.html">Search</a> | 
+        <a href="signup.html">Sign Up</a> | 
+        <a href="login.html" style="color: #ffcc80;">Login</a> | 
+        <a href="layouts.html">Layouts</a>
+    </div>
+
+    <div class="login-title">Login to MyConservationist</div>
+
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required placeholder="your@email.com">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required placeholder="Enter your password">
+        </div>
+
+        <div class="form-group remember-me">
+            <input type="checkbox" id="rememberMe" name="rememberMe">
+            <label for="rememberMe" style="margin: 0;">Remember me</label>
+        </div>
+
+        <button type="submit" class="login-btn">Log In</button>
+        <div class="error-message" id="errorMessage"></div>
+    </form>
+
+    <div class="signup-link">
+        Don't have an account? <a href="signup.html">Sign up here</a>
+    </div>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const rememberMe = document.getElementById('rememberMe').checked;
+
+        document.getElementById('errorMessage').style.display = 'none';
+
+        try {
+            // TODO: Replace with actual authentication
+            // For now, use localStorage as demo
+            const userData = {
+                email,
+                password,
+                loginTime: new Date().toISOString()
+            };
+
+            localStorage.setItem('authToken', JSON.stringify(userData));
+            
+            if (rememberMe) {
+                localStorage.setItem('rememberMe', 'true');
+                localStorage.setItem('userEmail', email);
+            }
+
+            // Redirect to profile
+            setTimeout(() => {
+                window.location.href = 'profile.html';
+            }, 500);
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('errorMessage').textContent = 'An error occurred. Please try again.';
+            document.getElementById('errorMessage').style.display = 'block';
+        }
+    });
+
+    // Auto-fill if remember me was checked
+    window.addEventListener('load', function() {
+        if (localStorage.getItem('rememberMe') === 'true') {
+            document.getElementById('email').value = localStorage.getItem('userEmail');
+            document.getElementById('rememberMe').checked = true;
+        }
+    });
+</script>
+
+</body>
+</html>
