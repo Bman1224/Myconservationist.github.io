@@ -1,1 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyConservationist | Layouts</title>
+    <style>
+        /* Classic MySpace Green/Orange Palette */
+        body {
+            background-color: #d5e1ef;
+            background-image: url('https://www.transparenttextures.com');
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
 
+        .main-wrapper {
+            width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid #d5e1ef;
+            padding: 15px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Status Box - The "New" Feature */
+        .status-box {
+            background: #fff8e1;
+            border: 1px solid #ffcc80;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .top-nav {
+            background: #336633;
+            color: #fff;
+            padding: 6px;
+            text-align: center;
+            font-size: 11px;
+            margin-bottom: 20px;
+        }
+        .top-nav a { color: #6699cc; text-decoration: none; margin: 0 8px; font-weight: bold; }
+
+        .profile-columns { display: flex; gap: 20px; }
+        .left-side { width: 300px; }
+        .right-side { width: 480px; }
+
+        .content-box { border: 1px solid #6699cc; margin-bottom: 15px; }
+        .box-head { background: #6699cc; color: #fff; padding: 4px 8px; font-weight: bold; font-size: 13px; }
+        .box-body { padding: 10px; font-size: 12px; line-height: 1.5; }
+
+        .profile-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+        .profile-img { width: 180px; border: 1px solid #ccc; padding: 5px; background: #fff; }
+        
+        .orange-link { color: #ff6600; font-weight: bold; text-decoration: none; }
+        
+        .friends-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
+        .friends-grid img { width: 90px; height: 90px; border: 1px solid #336633; }
+        .friends-grid span { display: block; font-size: 10px; margin-top: 2px; color: #336633; }
+
+        .player {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 11px;
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <!-- Top Nav -->
+    <div class="top-nav">
+        <a href="#">Home</a> | <a href="#">Browse</a> | <a href="#">Search</a> | <a href="#">Invite</a> | <a href="#">Mail</a> | <a href="#">Blog</a>
+        <!-- Top Nav -->
+<div class="top-nav">
+    <!-- If User is a Guest -->
+    <a href="index.html" style="color: #ffffff;">Home</a> | 
+    <a href="browse.html" style="color: #ffffff;">Browse</a> | 
+    <a href="search.html" style="color: #ffffff;">Search</a> | 
+    <a href="signup.html" style="color: #ffcc80;">Sign Up</a> | 
+    <a href="login.html" style="color: #ffffff;">Login</a>
+    <a href="layouts.html" style="color: #ffffff;">Layouts</a>
