@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyConservationist | Edit Profile</title>
+    <style>
+        body { background-color: #ccd9f0; font-family: Verdana, Arial, Helvetica, sans-serif; margin: 0; padding: 20px; }
+        .main-wrapper { width: 820px; margin: 0 auto; background: #eef3fb; border: 1px solid #a0b8e0; padding: 15px; box-shadow: 2px 2px 5px rgba(0,0,100,0.12); }
+        .top-nav { background: #1a3a6b; color: #fff; padding: 6px; text-align: center; font-size: 11px; margin-bottom: 20px; }
+        .top-nav a { color: #add4ff; text-decoration: none; margin: 0 8px; font-weight: bold; }
+        .top-nav a:hover { text-decoration: underline; }
+        .page-header { background: #2a5da8; color: #fff; padding: 8px 12px; font-weight: bold; font-size: 14px; margin-bottom: 16px; }
+        .content-box { border: 1px solid #4a7fc1; margin-bottom: 15px; }
+        .box-head { background: #2a5da8; color: #fff; padding: 4px 8px; font-weight: bold; font-size: 13px; }
+        .box-body { padding: 14px; font-size: 12px; background: #f0f5ff; }
+        label { display: block; font-weight: bold; color: #1a3a6b; margin-bottom: 4px; font-size: 11px; }
+        input[type=text], input[type=email], input[type=url], select, textarea { width: 100%; padding: 7px 8px; border: 1px solid #4a7fc1; font-size: 12px; background: #fff; box-sizing: border-box; margin-bottom: 12px; }
+        textarea { height: 80px; resize: vertical; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .btn { padding: 8px 20px; background: #2a5da8; color: #fff; border: none; font-size: 12px; font-weight: bold; cursor: pointer; margin-right: 8px; }
+        .btn:hover { background: #1a3a6b; }
+        .btn-cancel { padding: 8px 20px; background: #ccc; color: #333; border: none; font-size: 12px; font-weight: bold; cursor: pointer; }
+        .save-notice { display: none; background: #ddeeff; border: 1px solid #4a7fc1; color: #1a3a6b; padding: 8px 12px; font-size: 12px; margin-bottom: 12px; }
+        .avatar-preview { width: 90px; height: 90px; object-fit: cover; border: 1px solid #4a7fc1; display: block; margin-bottom: 8px; }
+        .tab-bar { display: flex; gap: 0; margin-bottom: 0; border-bottom: 2px solid #2a5da8; }
+        .tab { padding: 6px 16px; font-size: 12px; font-weight: bold; cursor: pointer; background: #ddeeff; color: #1a3a6b; border: 1px solid #4a7fc1; border-bottom: none; }
+        .tab.active { background: #2a5da8; color: #fff; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+        footer { font-size: 10px; margin-top: 20px; color: #4a7fc1; text-align: center; }
+    </style>
+</head>
+<body>
+<div class="main-wrapper">
+    <div class="top-nav">
+        <a href="index.html">Home</a> |
+        <a href="browse.html">Browse</a> |
+        <a href="search.html">Search</a> |
+        <a href="signup.html">Sign Up</a> |
+        <a href="login.html">Login</a> |
+        <a href="layouts.html">Layouts</a> |
+        <a href="profile.html">My Profile</a> |
+        <a href="edit_profile.html" style="color:#ffffff;">Edit Profile</a> |
+        <a href="mail.html">Mail (0)</a> |
+        <a href="logout.html">Logout</a>
+    </div>
+    <div class="page-header">Edit My Profile</div>
+    <div class="save-notice" id="saveNotice">✅ Profile saved successfully!</div>
+
+    <div class="tab-bar">
+        <div class="tab active" onclick="switchTab('basic')">Basic Info</div>
+        <div class="tab" onclick="switchTab('about')">About Me</div>
+        <div class="tab" onclick="switchTab('interests')">Interests</div>
+        <div class="tab" onclick="switchTab('photo')">Profile Photo</div>
+        <div class="tab" onclick="switchTab('status')">Status</div>
+    </div>
+
+    <!-- Basic Info -->
+    <div class="tab-panel active" id="tab-basic">
+        <div class="content-box" style="border-top:none;">
+            <div class="box-body">
+                <div class="form-row">
+                    <div>
+                        <label>Display Name</label>
+                        <input type="text" id="displayName" value="Boss">
+                    </div>
+                    <div>
+                        <label>Gender</label>
+                        <select id="gender">
+                            <option>Male</option><option>Female</option><option>Non-binary</option><option>Prefer not to say</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Location</label>
+                        <input type="text" id="location" value="Earth">
+                    </div>
+                    <div>
+                        <label>Website</label>
+                        <input type="url" id="website" placeholder="https://...">
+                    </div>
+                </div>
+                <label>Headline / Quote</label>
+                <input type="text" id="headline" value="I'm just a guy making the world better.">
+                <button class="btn" onclick="saveProfile()">Save Changes</button>
+                <a href="profile.html"><button class="btn-cancel" type="button">Cancel</button></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Me -->
+    <div class="tab-panel" id="tab-about">
+        <div class="content-box" style="border-top:none;">
+            <div class="box-body">
+                <label>About Me</label>
+                <textarea id="aboutMe">Hi, I'm Boss. I'm not a scientist or a politician — I'm just a regular kid who loves the outdoors. I started this site because of a school project and now we're here. A place where we can talk about simple ways to help the environment without it feeling like a chore. Whether it's planting a single tomato plant or picking up one piece of trash on a walk, it all counts!</textarea>
+                <label>Who I'd Like to Meet</label>
+                <textarea id="whoMeet">People who are curious about living a bit greener. If you have a tip for reducing waste, leave me a comment!</textarea>
+                <button class="btn" onclick="saveProfile()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interests -->
+    <div class="tab-panel" id="tab-interests">
+        <div class="content-box" style="border-top:none;">
+            <div class="box-body">
+                <label>General Interests</label>
+                <input type="text" id="general" value="Composting, Fixing old bikes, Hiking">
+                <label>Music</label>
+                <input type="text" id="music" value="Acoustic stuff, anything with birds chirping in the background">
+                <label>Movies</label>
+                <input type="text" id="movies" placeholder="e.g. nature documentaries">
+                <label>Books</label>
+                <input type="text" id="books" placeholder="e.g. The Overstory">
+                <label>Heroes</label>
+                <input type="text" id="heroes" value="Anyone picking up trash they didn't drop">
+                <button class="btn" onclick="saveProfile()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo -->
+    <div class="tab-panel" id="tab-photo">
+        <div class="content-box" style="border-top:none;">
+            <div class="box-body">
+                <label>Current Profile Photo</label>
+                <img src="https://i.imgur.com/mf9z4RH.jpeg" class="avatar-preview" id="avatarPreview">
+                <label>New Photo URL (paste an imgur direct link)</label>
+                <input type="url" id="photoUrl" placeholder="https://i.imgur.com/...">
+                <button class="btn" onclick="previewPhoto()">Preview</button>
+                <button class="btn" onclick="saveProfile()" style="background:#2e7d32;">Set as Profile Photo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status -->
+    <div class="tab-panel" id="tab-status">
+        <div class="content-box" style="border-top:none;">
+            <div class="box-body">
+                <label>What are you doing right now?</label>
+                <input type="text" id="statusText" value="Thinking about how i can save the Seals" maxlength="140">
+                <div style="font-size:10px;color:#888;margin-top:-8px;margin-bottom:12px;">Max 140 characters</div>
+                <button class="btn" onclick="saveProfile()">Update Status</button>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>MyConservationist ©2026 | Built by Boss</footer>
+<script>
+function switchTab(id) {
+    document.querySelectorAll('.tab').forEach((t,i) => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-'+id).classList.add('active');
+    const tabs = ['basic','about','interests','photo','status'];
+    document.querySelectorAll('.tab')[tabs.indexOf(id)].classList.add('active');
+}
+function saveProfile() {
+    const notice = document.getElementById('saveNotice');
+    notice.style.display = 'block';
+    setTimeout(() => notice.style.display = 'none', 3000);
+}
+function previewPhoto() {
+    const url = document.getElementById('photoUrl').value.trim();
+    if (url) document.getElementById('avatarPreview').src = url;
+}
+</script>
+</body>
+</html>

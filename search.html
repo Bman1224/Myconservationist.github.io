@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyConservationist | Search</title>
+    <style>
+        body { background-color: #ccd9f0; font-family: Verdana, Arial, Helvetica, sans-serif; margin: 0; padding: 20px; }
+        .main-wrapper { width: 900px; margin: 0 auto; background: #eef3fb; border: 1px solid #a0b8e0; padding: 15px; box-shadow: 2px 2px 5px rgba(0,0,100,0.12); }
+        .top-nav { background: #1a3a6b; color: #fff; padding: 6px; text-align: center; font-size: 11px; margin-bottom: 20px; }
+        .top-nav a { color: #add4ff; text-decoration: none; margin: 0 8px; font-weight: bold; }
+        .top-nav a:hover { text-decoration: underline; }
+        .page-header { background: #2a5da8; color: #fff; padding: 8px 12px; font-weight: bold; font-size: 14px; margin-bottom: 16px; }
+        .content-box { border: 1px solid #4a7fc1; margin-bottom: 15px; }
+        .box-head { background: #2a5da8; color: #fff; padding: 4px 8px; font-weight: bold; font-size: 13px; }
+        .box-body { padding: 12px; font-size: 12px; background: #f0f5ff; }
+        label { display: block; font-weight: bold; color: #1a3a6b; margin-bottom: 4px; font-size: 11px; }
+        input, select { width: 100%; padding: 7px 8px; border: 1px solid #4a7fc1; font-size: 12px; background: #fff; box-sizing: border-box; margin-bottom: 12px; }
+        .search-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .btn { padding: 8px 20px; background: #2a5da8; color: #fff; border: none; font-size: 12px; font-weight: bold; cursor: pointer; }
+        .btn:hover { background: #1a3a6b; }
+        .results-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+        .results-table th { background: #2a5da8; color: #fff; padding: 6px 8px; text-align: left; }
+        .results-table td { padding: 6px 8px; border-bottom: 1px solid #c0d4f0; background: #fff; }
+        .results-table tr:hover td { background: #ddeeff; }
+        .results-table img { width: 40px; height: 40px; object-fit: cover; border: 1px solid #4a7fc1; vertical-align: middle; }
+        .results-table a { color: #2a5da8; text-decoration: none; font-weight: bold; }
+        .results-table a:hover { text-decoration: underline; }
+        .no-results { color: #888; font-size: 12px; padding: 12px; text-align: center; }
+        footer { font-size: 10px; margin-top: 20px; color: #4a7fc1; text-align: center; }
+    </style>
+</head>
+<body>
+<div class="main-wrapper">
+    <div class="top-nav">
+        <a href="index.html">Home</a> |
+        <a href="browse.html">Browse</a> |
+        <a href="search.html" style="color:#ffffff;">Search</a> |
+        <a href="signup.html">Sign Up</a> |
+        <a href="login.html">Login</a> |
+        <a href="layouts.html">Layouts</a> |
+        <a href="profile.html">My Profile</a> |
+        <a href="edit_profile.html">Edit Profile</a> |
+        <a href="mail.html">Mail (0)</a> |
+        <a href="logout.html">Logout</a>
+    </div>
+    <div class="page-header">Search Members</div>
+
+    <div class="content-box">
+        <div class="box-head">Find Members</div>
+        <div class="box-body">
+            <div class="search-row">
+                <div>
+                    <label>Username or Display Name</label>
+                    <input type="text" id="searchName" placeholder="e.g. OceanBlue">
+                </div>
+                <div>
+                    <label>Interest / Cause</label>
+                    <select id="searchInterest">
+                        <option value="">Any</option>
+                        <option value="Oceans">Oceans</option>
+                        <option value="Forests">Forests</option>
+                        <option value="Wildlife">Wildlife</option>
+                        <option value="Composting">Composting</option>
+                        <option value="Solar">Solar/Energy</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Age Range</label>
+                    <select id="searchAge">
+                        <option value="">Any Age</option>
+                        <option value="teen">13–17</option>
+                        <option value="young">18–25</option>
+                        <option value="adult">26–35</option>
+                        <option value="older">36+</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Status</label>
+                    <select id="searchStatus">
+                        <option value="">Any</option>
+                        <option value="online">Online Now</option>
+                        <option value="offline">Offline</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn" onclick="doSearch()">🔍 Search</button>
+        </div>
+    </div>
+
+    <div class="content-box">
+        <div class="box-head">Results</div>
+        <div class="box-body" id="resultsArea">
+            <div class="no-results">Enter a name or pick a filter above and hit Search.</div>
+        </div>
+    </div>
+</div>
+<footer>MyConservationist ©2026 | Built by Boss</footer>
+<script>
+const members = [
+    { name:"Boss", img:"https://i.imgur.com/mf9z4RH.jpeg", interest:"Wildlife", age:14, online:true },
+    { name:"RecycleGuy", img:"https://via.placeholder.com/40/4a7fc1/fff?text=RG", interest:"Composting", age:22, online:true },
+    { name:"TreeLover", img:"https://via.placeholder.com/40/2d5016/fff?text=TL", interest:"Forests", age:17, online:true },
+    { name:"OceanBlue", img:"https://via.placeholder.com/40/005082/fff?text=OB", interest:"Oceans", age:25, online:false },
+    { name:"CompostJim", img:"https://via.placeholder.com/40/8b6f47/fff?text=CJ", interest:"Composting", age:34, online:true },
+    { name:"Windy", img:"https://via.placeholder.com/40/607d8b/fff?text=W", interest:"Solar", age:19, online:false },
+    { name:"TheBees", img:"https://via.placeholder.com/40/f9a825/000?text=TB", interest:"Wildlife", age:28, online:true },
+    { name:"SolarGirl", img:"https://via.placeholder.com/40/ff6b35/fff?text=SG", interest:"Solar", age:21, online:false },
+    { name:"WildRoots", img:"https://via.placeholder.com/40/336633/fff?text=WR", interest:"Forests", age:31, online:true },
+    { name:"CleanWater99", img:"https://via.placeholder.com/40/0288d1/fff?text=CW", interest:"Oceans", age:16, online:false },
+    { name:"EcoMaria", img:"https://via.placeholder.com/40/ad1457/fff?text=EM", interest:"Wildlife", age:23, online:true },
+    { name:"BikeKid", img:"https://via.placeholder.com/40/5e35b1/fff?text=BK", interest:"Solar", age:15, online:false },
+    { name:"GardenSam", img:"https://via.placeholder.com/40/2e7d32/fff?text=GS", interest:"Composting", age:40, online:true },
+];
+function ageGroup(age) {
+    if (age <= 17) return "teen";
+    if (age <= 25) return "young";
+    if (age <= 35) return "adult";
+    return "older";
+}
+function doSearch() {
+    const name = document.getElementById('searchName').value.toLowerCase().trim();
+    const interest = document.getElementById('searchInterest').value;
+    const age = document.getElementById('searchAge').value;
+    const status = document.getElementById('searchStatus').value;
+    let results = members.filter(m => {
+        if (name && !m.name.toLowerCase().includes(name)) return false;
+        if (interest && m.interest !== interest) return false;
+        if (age && ageGroup(m.age) !== age) return false;
+        if (status === 'online' && !m.online) return false;
+        if (status === 'offline' && m.online) return false;
+        return true;
+    });
+    const area = document.getElementById('resultsArea');
+    if (!results.length) {
+        area.innerHTML = '<div class="no-results">No members found. Try different filters!</div>';
+        return;
+    }
+    area.innerHTML = '<table class="results-table"><thead><tr><th>Photo</th><th>Name</th><th>Interest</th><th>Age</th><th>Status</th><th>Actions</th></tr></thead><tbody>'
+        + results.map(m => '<tr><td><img src="'+m.img+'" alt="'+m.name+'"></td><td><a href="profile.html">'+m.name+'</a></td><td>'+m.interest+'</td><td>'+m.age+'</td><td>'+(m.online?'🟢 Online':'⚪ Offline')+'</td><td><a href="profile.html">View</a> &nbsp; <a href="mail.html">Message</a></td></tr>').join('')
+        + '</tbody></table><div style="font-size:10px;color:#888;margin-top:8px;">'+results.length+' member(s) found.</div>';
+}
+</script>
+</body>
+</html>

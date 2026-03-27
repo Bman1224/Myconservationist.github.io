@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyConservationist | Browse Members</title>
+    <style>
+        body { background-color: #ccd9f0; font-family: Verdana, Arial, Helvetica, sans-serif; margin: 0; padding: 20px; }
+        .main-wrapper { width: 900px; margin: 0 auto; background: #eef3fb; border: 1px solid #a0b8e0; padding: 15px; box-shadow: 2px 2px 5px rgba(0,0,100,0.12); }
+        .top-nav { background: #1a3a6b; color: #fff; padding: 6px; text-align: center; font-size: 11px; margin-bottom: 20px; }
+        .top-nav a { color: #add4ff; text-decoration: none; margin: 0 8px; font-weight: bold; }
+        .top-nav a:hover { text-decoration: underline; }
+        .page-header { background: #2a5da8; color: #fff; padding: 8px 12px; font-weight: bold; font-size: 14px; margin-bottom: 4px; }
+        .page-sub { font-size: 11px; color: #444; padding: 6px 2px 12px; border-bottom: 1px solid #a0b8e0; margin-bottom: 16px; }
+        .filter-bar { display: flex; gap: 8px; margin-bottom: 18px; align-items: center; }
+        .filter-bar select, .filter-bar input { padding: 6px 8px; border: 1px solid #4a7fc1; font-size: 11px; background: #fff; }
+        .filter-bar button { padding: 6px 14px; background: #2a5da8; color: #fff; border: none; font-size: 11px; font-weight: bold; cursor: pointer; }
+        .filter-bar button:hover { background: #1a3a6b; }
+        .members-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+        .member-card { background: #fff; border: 1px solid #4a7fc1; text-align: center; padding: 10px 8px; }
+        .member-card:hover { border-color: #1a3a6b; box-shadow: 0 2px 8px rgba(0,0,100,0.1); }
+        .member-card img { width: 90px; height: 90px; object-fit: cover; border: 1px solid #4a7fc1; display: block; margin: 0 auto 6px; }
+        .member-name { font-size: 12px; font-weight: bold; color: #1a3a6b; margin-bottom: 2px; }
+        .member-name a { color: #1a3a6b; text-decoration: none; }
+        .member-name a:hover { text-decoration: underline; }
+        .member-detail { font-size: 10px; color: #666; margin-bottom: 4px; }
+        .member-online { display: inline-block; width: 7px; height: 7px; background: #4caf50; border-radius: 50%; margin-right: 3px; }
+        .member-offline { display: inline-block; width: 7px; height: 7px; background: #aaa; border-radius: 50%; margin-right: 3px; }
+        .member-actions { margin-top: 6px; display: flex; gap: 4px; justify-content: center; }
+        .member-actions a { font-size: 10px; color: #2a5da8; text-decoration: none; border: 1px solid #4a7fc1; padding: 2px 6px; background: #f0f5ff; }
+        .member-actions a:hover { background: #ddeeff; }
+        .section-label { font-size: 11px; font-weight: bold; color: #1a3a6b; margin: 18px 0 8px; border-bottom: 1px solid #a0b8e0; padding-bottom: 4px; }
+        .pagination { text-align: center; margin-top: 16px; font-size: 12px; }
+        .pagination a { display: inline-block; margin: 0 3px; padding: 4px 10px; border: 1px solid #4a7fc1; color: #2a5da8; text-decoration: none; background: #fff; }
+        .pagination a.current { background: #2a5da8; color: #fff; }
+        .pagination a:hover { background: #ddeeff; }
+        footer { font-size: 10px; margin-top: 20px; color: #4a7fc1; text-align: center; }
+    </style>
+</head>
+<body>
+<div class="main-wrapper">
+    <div class="top-nav">
+        <a href="index.html">Home</a> |
+        <a href="browse.html" style="color:#ffffff;">Browse</a> |
+        <a href="search.html">Search</a> |
+        <a href="signup.html">Sign Up</a> |
+        <a href="login.html">Login</a> |
+        <a href="layouts.html">Layouts</a> |
+        <a href="profile.html">My Profile</a> |
+        <a href="edit_profile.html">Edit Profile</a> |
+        <a href="mail.html">Mail (0)</a> |
+        <a href="logout.html">Logout</a>
+    </div>
+    <div class="page-header">Browse Members</div>
+    <div class="page-sub">Discover conservationists near you and around the world.</div>
+    <div class="filter-bar">
+        <select id="sortBy"><option value="new">Newest Members</option><option value="online">Online Now</option><option value="active">Most Active</option></select>
+        <select id="filterAge"><option value="">Any Age</option><option value="13-17">13-17</option><option value="18-25">18-25</option><option value="26-35">26-35</option><option value="36+">36+</option></select>
+        <select id="filterInterest"><option value="">Any Interest</option><option value="Oceans">Oceans</option><option value="Forests">Forests</option><option value="Wildlife">Wildlife</option><option value="Composting">Composting</option><option value="Solar">Solar/Energy</option></select>
+        <button onclick="applyFilter()">Go</button>
+    </div>
+    <div class="section-label">🟢 Online Now</div>
+    <div class="members-grid" id="onlineGrid"></div>
+    <div class="section-label">⭐ New Members</div>
+    <div class="members-grid" id="newGrid"></div>
+    <div class="pagination">
+        <a href="#" class="current">1</a><a href="#">2</a><a href="#">3</a><a href="#">Next &raquo;</a>
+    </div>
+</div>
+<footer>MyConservationist ©2026 | Built by Boss</footer>
+<script>
+const members = [
+    { name:"RecycleGuy", img:"https://via.placeholder.com/90/4a7fc1/fff?text=RG", interest:"Composting", age:"22", online:true },
+    { name:"TreeLover", img:"https://via.placeholder.com/90/2d5016/fff?text=TL", interest:"Forests", age:"17", online:true },
+    { name:"OceanBlue", img:"https://via.placeholder.com/90/005082/fff?text=OB", interest:"Oceans", age:"25", online:false },
+    { name:"CompostJim", img:"https://via.placeholder.com/90/8b6f47/fff?text=CJ", interest:"Composting", age:"34", online:true },
+    { name:"Windy", img:"https://via.placeholder.com/90/607d8b/fff?text=W", interest:"Solar", age:"19", online:false },
+    { name:"TheBees", img:"https://via.placeholder.com/90/f9a825/000?text=TB", interest:"Wildlife", age:"28", online:true },
+    { name:"SolarGirl", img:"https://via.placeholder.com/90/ff6b35/fff?text=SG", interest:"Solar", age:"21", online:false },
+    { name:"WildRoots", img:"https://via.placeholder.com/90/336633/fff?text=WR", interest:"Forests", age:"31", online:true },
+    { name:"CleanWater99", img:"https://via.placeholder.com/90/0288d1/fff?text=CW", interest:"Oceans", age:"16", online:false },
+    { name:"EcoMaria", img:"https://via.placeholder.com/90/ad1457/fff?text=EM", interest:"Wildlife", age:"23", online:true },
+    { name:"BikeKid", img:"https://via.placeholder.com/90/5e35b1/fff?text=BK", interest:"Solar", age:"15", online:false },
+    { name:"GardenSam", img:"https://via.placeholder.com/90/2e7d32/fff?text=GS", interest:"Composting", age:"40", online:true },
+];
+function card(m) {
+    return '<div class="member-card"><img src="'+m.img+'" alt="'+m.name+'"><div class="member-name"><a href="profile.html">'+m.name+'</a></div><div class="member-detail"><span class="'+(m.online?'member-online':'member-offline')+'"></span>'+(m.online?'Online':'Offline')+' &bull; Age '+m.age+'</div><div class="member-detail" style="color:#2a5da8;">'+m.interest+'</div><div class="member-actions"><a href="profile.html">View</a><a href="#">+ Add</a><a href="mail.html">✉</a></div></div>';
+}
+function applyFilter() {
+    const interest = document.getElementById('filterInterest').value;
+    const filtered = members.filter(m => !interest || m.interest === interest);
+    document.getElementById('onlineGrid').innerHTML = filtered.filter(m=>m.online).map(card).join('');
+    document.getElementById('newGrid').innerHTML = filtered.filter(m=>!m.online).map(card).join('');
+}
+applyFilter();
+</script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyConservationist | Mail</title>
+    <style>
+        body { background-color: #ccd9f0; font-family: Verdana, Arial, Helvetica, sans-serif; margin: 0; padding: 20px; }
+        .main-wrapper { width: 900px; margin: 0 auto; background: #eef3fb; border: 1px solid #a0b8e0; padding: 15px; box-shadow: 2px 2px 5px rgba(0,0,100,0.12); }
+        .top-nav { background: #1a3a6b; color: #fff; padding: 6px; text-align: center; font-size: 11px; margin-bottom: 20px; }
+        .top-nav a { color: #add4ff; text-decoration: none; margin: 0 8px; font-weight: bold; }
+        .top-nav a:hover { text-decoration: underline; }
+        .page-header { background: #2a5da8; color: #fff; padding: 8px 12px; font-weight: bold; font-size: 14px; margin-bottom: 0; }
+        .mail-layout { display: flex; gap: 0; min-height: 480px; border: 1px solid #4a7fc1; }
+        .mail-sidebar { width: 160px; background: #ddeeff; border-right: 1px solid #4a7fc1; flex-shrink: 0; }
+        .mail-sidebar-head { background: #1a3a6b; color: #fff; font-size: 11px; font-weight: bold; padding: 6px 10px; }
+        .mail-nav a { display: block; padding: 7px 12px; font-size: 12px; color: #1a3a6b; text-decoration: none; border-bottom: 1px solid #b0c8e8; }
+        .mail-nav a:hover, .mail-nav a.active { background: #2a5da8; color: #fff; }
+        .mail-main { flex: 1; background: #f0f5ff; }
+        .mail-toolbar { background: #eef3fb; border-bottom: 1px solid #c0d4f0; padding: 6px 10px; display: flex; gap: 8px; align-items: center; font-size: 11px; }
+        .mail-toolbar button { padding: 4px 12px; background: #2a5da8; color: #fff; border: none; font-size: 11px; font-weight: bold; cursor: pointer; }
+        .mail-toolbar button:hover { background: #1a3a6b; }
+        .mail-toolbar button.danger { background: #c0392b; }
+        .mail-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .mail-table th { background: #2a5da8; color: #fff; padding: 5px 8px; text-align: left; font-size: 11px; }
+        .mail-table td { padding: 7px 8px; border-bottom: 1px solid #c0d4f0; vertical-align: middle; }
+        .mail-table tr.unread td { background: #fff; font-weight: bold; }
+        .mail-table tr.read td { background: #f8fbff; color: #555; }
+        .mail-table tr:hover td { background: #ddeeff; cursor: pointer; }
+        .mail-table input[type=checkbox] { margin: 0; }
+        .mail-table .from { color: #1a3a6b; font-weight: bold; }
+        .mail-table .subject { color: #222; }
+        .mail-table .date { color: #888; font-size: 10px; white-space: nowrap; }
+        .mail-table .badge { background: #2a5da8; color: #fff; font-size: 9px; padding: 1px 5px; border-radius: 8px; margin-left: 4px; }
+        .compose-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 100; align-items: center; justify-content: center; }
+        .compose-overlay.open { display: flex; }
+        .compose-box { background: #eef3fb; border: 2px solid #2a5da8; width: 500px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .compose-head { background: #2a5da8; color: #fff; padding: 8px 12px; font-weight: bold; font-size: 13px; display: flex; justify-content: space-between; }
+        .compose-head span { cursor: pointer; font-size: 16px; }
+        .compose-body { padding: 14px; }
+        .compose-body label { display: block; font-size: 11px; font-weight: bold; color: #1a3a6b; margin-bottom: 3px; }
+        .compose-body input, .compose-body textarea { width: 100%; padding: 6px 8px; border: 1px solid #4a7fc1; font-size: 12px; box-sizing: border-box; margin-bottom: 10px; }
+        .compose-body textarea { height: 120px; resize: vertical; }
+        .compose-body button { padding: 7px 18px; background: #2a5da8; color: #fff; border: none; font-size: 12px; font-weight: bold; cursor: pointer; }
+        .compose-body button:hover { background: #1a3a6b; }
+        .thread-view { display: none; padding: 14px; }
+        .thread-view.open { display: block; }
+        .thread-msg { background: #fff; border: 1px solid #c0d4f0; margin-bottom: 12px; }
+        .thread-msg-head { background: #ddeeff; padding: 6px 10px; font-size: 11px; color: #1a3a6b; border-bottom: 1px solid #c0d4f0; }
+        .thread-msg-body { padding: 10px; font-size: 12px; line-height: 1.6; }
+        .thread-reply textarea { width: 100%; padding: 8px; border: 1px solid #4a7fc1; font-size: 12px; box-sizing: border-box; height: 80px; margin-bottom: 8px; }
+        .thread-reply button { padding: 7px 16px; background: #2a5da8; color: #fff; border: none; font-size: 11px; font-weight: bold; cursor: pointer; }
+        footer { font-size: 10px; margin-top: 20px; color: #4a7fc1; text-align: center; }
+    </style>
+</head>
+<body>
+<div class="main-wrapper">
+    <div class="top-nav">
+        <a href="index.html">Home</a> |
+        <a href="browse.html">Browse</a> |
+        <a href="search.html">Search</a> |
+        <a href="signup.html">Sign Up</a> |
+        <a href="login.html">Login</a> |
+        <a href="layouts.html">Layouts</a> |
+        <a href="profile.html">My Profile</a> |
+        <a href="edit_profile.html">Edit Profile</a> |
+        <a href="mail.html" style="color:#ffffff;">Mail (2)</a> |
+        <a href="logout.html">Logout</a>
+    </div>
+    <div class="page-header">✉ Mail</div>
+
+    <div class="mail-layout">
+        <div class="mail-sidebar">
+            <div class="mail-sidebar-head">Folders</div>
+            <div class="mail-nav">
+                <a href="#" class="active" onclick="showInbox(event)">📥 Inbox <span class="badge">2</span></a>
+                <a href="#" onclick="showSent(event)">📤 Sent</a>
+                <a href="#" onclick="openCompose()">✏️ Compose</a>
+                <a href="#">🗑 Trash</a>
+            </div>
+            <div style="padding:10px;font-size:10px;color:#555;border-top:1px solid #b0c8e8;margin-top:12px;">
+                <b>Storage:</b><br>2 / 100 messages
+            </div>
+        </div>
+
+        <div class="mail-main">
+            <!-- Inbox -->
+            <div id="inboxView">
+                <div class="mail-toolbar">
+                    <button onclick="openCompose()">+ Compose</button>
+                    <button onclick="markRead()">Mark Read</button>
+                    <button class="danger" onclick="deleteSelected()">Delete</button>
+                    <span style="margin-left:auto;color:#888;">2 unread</span>
+                </div>
+                <table class="mail-table">
+                    <thead><tr><th><input type="checkbox" id="checkAll" onchange="toggleAll(this)"></th><th>From</th><th>Subject</th><th>Date</th></tr></thead>
+                    <tbody id="mailRows">
+                        <tr class="unread" onclick="openThread(0)">
+                            <td><input type="checkbox" class="rowCheck"></td>
+                            <td class="from">OceanBlue</td>
+                            <td class="subject">Re: Beach Cleanup this weekend?</td>
+                            <td class="date">Mar 25</td>
+                        </tr>
+                        <tr class="unread" onclick="openThread(1)">
+                            <td><input type="checkbox" class="rowCheck"></td>
+                            <td class="from">TreeLover</td>
+                            <td class="subject">Check out this composting guide!</td>
+                            <td class="date">Mar 24</td>
+                        </tr>
+                        <tr class="read" onclick="openThread(2)">
+                            <td><input type="checkbox" class="rowCheck"></td>
+                            <td class="from">CompostJim</td>
+                            <td class="subject">Welcome to MyConservationist!</td>
+                            <td class="date">Mar 20</td>
+                        </tr>
+                        <tr class="read" onclick="openThread(3)">
+                            <td><input type="checkbox" class="rowCheck"></td>
+                            <td class="from">TheBees</td>
+                            <td class="subject">Tips for helping local pollinators</td>
+                            <td class="date">Mar 18</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Sent View -->
+            <div id="sentView" style="display:none;">
+                <div class="mail-toolbar"><span style="color:#888;">Sent Messages</span></div>
+                <table class="mail-table">
+                    <thead><tr><th></th><th>To</th><th>Subject</th><th>Date</th></tr></thead>
+                    <tbody>
+                        <tr class="read"><td></td><td class="from">OceanBlue</td><td class="subject">Beach Cleanup this weekend?</td><td class="date">Mar 23</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Thread View -->
+            <div class="thread-view" id="threadView">
+                <button onclick="closeThread()" style="font-size:11px;padding:4px 10px;background:#eef3fb;border:1px solid #4a7fc1;cursor:pointer;color:#1a3a6b;margin-bottom:10px;">← Back to Inbox</button>
+                <div id="threadContent"></div>
+                <div class="thread-reply">
+                    <b style="font-size:11px;color:#1a3a6b;">Reply:</b><br>
+                    <textarea id="replyText" placeholder="Write your reply..."></textarea>
+                    <button onclick="sendReply()">Send Reply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Compose Overlay -->
+<div class="compose-overlay" id="composeOverlay">
+    <div class="compose-box">
+        <div class="compose-head">New Message <span onclick="closeCompose()">✕</span></div>
+        <div class="compose-body">
+            <label>To:</label>
+            <input type="text" id="composeTo" placeholder="Username">
+            <label>Subject:</label>
+            <input type="text" id="composeSubject" placeholder="Subject">
+            <label>Message:</label>
+            <textarea id="composeBody" placeholder="Write your message here..."></textarea>
+            <button onclick="sendMessage()">Send ✉</button>
+            <button onclick="closeCompose()" style="background:#ccc;color:#333;margin-left:8px;">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<footer>MyConservationist ©2026 | Built by Boss</footer>
+<script>
+const threads = [
+    { from:"OceanBlue", subject:"Re: Beach Cleanup this weekend?", date:"March 25, 2026", body:"Hey Boss! Yes I'm totally in for the beach cleanup! I'll bring some extra bags. What time are we meeting up? Also I picked up some trash on my walk yesterday — your site really inspired me to just do it without overthinking it 🌊" },
+    { from:"TreeLover", subject:"Check out this composting guide!", date:"March 24, 2026", body:"Hi Boss! Found this amazing composting guide and thought of you immediately. The part about layering browns and greens is super helpful. Let me know what you think! 🌱" },
+    { from:"CompostJim", subject:"Welcome to MyConservationist!", date:"March 20, 2026", body:"Welcome to the community! So glad you built this place. I've been composting for 10 years and love seeing young people get into it. Feel free to ask me anything!" },
+    { from:"TheBees", subject:"Tips for helping local pollinators", date:"March 18, 2026", body:"Hey! Wanted to share some quick tips for helping bees and butterflies in your area: plant native wildflowers, avoid pesticides, and leave a shallow water dish out. Easy wins! 🐝" },
+];
+function openThread(idx) {
+    document.getElementById('inboxView').style.display = 'none';
+    const tv = document.getElementById('threadView');
+    tv.classList.add('open');
+    const t = threads[idx];
+    document.getElementById('threadContent').innerHTML =
+        '<div class="thread-msg"><div class="thread-msg-head"><b>From:</b> '+t.from+' &nbsp; <b>Date:</b> '+t.date+'<br><b>Subject:</b> '+t.subject+'</div><div class="thread-msg-body">'+t.body+'</div></div>';
+    document.querySelectorAll('#mailRows tr')[idx].className = 'read';
+}
+function closeThread() {
+    document.getElementById('threadView').classList.remove('open');
+    document.getElementById('inboxView').style.display = 'block';
+}
+function showInbox(e) { e.preventDefault(); document.getElementById('inboxView').style.display='block'; document.getElementById('sentView').style.display='none'; document.getElementById('threadView').classList.remove('open'); }
+function showSent(e) { e.preventDefault(); document.getElementById('sentView').style.display='block'; document.getElementById('inboxView').style.display='none'; document.getElementById('threadView').classList.remove('open'); }
+function openCompose() { document.getElementById('composeOverlay').classList.add('open'); }
+function closeCompose() { document.getElementById('composeOverlay').classList.remove('open'); }
+function sendMessage() { alert('Message sent!'); closeCompose(); document.getElementById('composeTo').value=''; document.getElementById('composeSubject').value=''; document.getElementById('composeBody').value=''; }
+function sendReply() { const t=document.getElementById('replyText').value.trim(); if(!t)return; alert('Reply sent!'); document.getElementById('replyText').value=''; }
+function toggleAll(cb) { document.querySelectorAll('.rowCheck').forEach(c => c.checked = cb.checked); }
+function markRead() { document.querySelectorAll('#mailRows tr').forEach(r => r.className='read'); }
+function deleteSelected() { document.querySelectorAll('.rowCheck:checked').forEach(c => c.closest('tr').remove()); }
+</script>
+</body>
+</html>
