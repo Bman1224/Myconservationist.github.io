@@ -324,7 +324,65 @@
 </div>
 
 <script>
-// JS unchanged
+const layouts = [
+    {
+        id: 'classic',
+        name: 'Classic MyConservationist',
+        thumb: 'thumb-classic',
+        author: 'Boss',
+        desc: 'The original blue theme for MyConservationist. Clean, simple, and easy to read. Great starting point for new profiles.',
+        tags: ['blue', 'minimal', 'classic'],
+        comments: 12,
+        code: `<style>
+body { background-color: #ccd9f0; }
+.top-nav { background: #1a3a6b; }
+.box-head { background: #2a5da8; }
+.content-box { border: 1px solid #4a7fc1; }
+.orange-link { color: #1a6bbf; }
+</style>`
+    }
+];
+
+function renderLayouts(list) {
+    const container = document.getElementById('layoutList');
+    container.innerHTML = '';
+    list.forEach(layout => {
+        const card = document.createElement('div');
+        card.className = 'layout-card';
+        card.innerHTML = `<div class="layout-thumb ${layout.thumb}">${layout.name}</div>
+        <div class="layout-body">
+            <div class="layout-title-row">
+                <div class="layout-name">${layout.name}</div>
+                <div class="layout-meta">${layout.comments} comments</div>
+            </div>
+            <div class="layout-author">by ${layout.author}</div>
+            <div class="layout-desc">${layout.desc}</div>
+            <div class="card-actions">
+                <button class="code-toggle" onclick="toggleCode('${layout.id}')">▼ Get Code</button>
+            </div>
+            <div class="code-block" id="code-${layout.id}">
+                <button class="copy-btn" onclick="copyCode('${layout.id}')">Copy</button>${layout.code}</div>
+        </div>`;
+        container.appendChild(card);
+    });
+}
+
+function toggleCode(id) {
+    const block = document.getElementById('code-' + id);
+    block.classList.toggle('open');
+}
+
+function copyCode(id) {
+    const block = document.getElementById('code-' + id);
+    const text = block.innerText.replace('Copy', '').trim();
+    navigator.clipboard.writeText(text);
+}
+
+function filterLayouts() {
+    renderLayouts(layouts);
+}
+
+renderLayouts(layouts);
 </script>
 </body>
 </html>
