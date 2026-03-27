@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
+<script>
+    // Version: 2.0
+    window.Brevo = window.Brevo || [];
+    Brevo.push([
+        "init",
+        {
+            client_key: "nbrw92437k4pua9ac1lwu7fs",
+        }
+    ]);
+</script>
+<head>
+    <meta charset="UTF-8">
+    <title>MyConservationist | Boss's Profile</title>
+    <style>
+        body {
+            background-color: #ccd9f0;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .main-wrapper {
+            width: 800px;
+            margin: 0 auto;
+            background: #eef3fb;
+            border: 1px solid #a0b8e0;
+            padding: 15px;
+            box-shadow: 2px 2px 5px rgba(0,0,100,0.12);
+        }
+
+        .status-box {
+            background: #ddeeff;
+            border: 1px solid #7aaade;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        /* FIX 3: Removed duplicate top-nav — now only one */
+        .top-nav {
+            background: #1a3a6b;
+            color: #fff;
+            padding: 6px;
+            text-align: center;
+            font-size: 11px;
+            margin-bottom: 20px;
+        }
+        .top-nav a { color: #add4ff; text-decoration: none; margin: 0 8px; font-weight: bold; }
+
+        .profile-columns { display: flex; gap: 20px; }
+        .left-side { width: 300px; }
+        .right-side { width: 480px; }
+
+        .content-box { border: 1px solid #4a7fc1; margin-bottom: 15px; }
+        .box-head { background: #2a5da8; color: #fff; padding: 4px 8px; font-weight: bold; font-size: 13px; }
+        .box-body { padding: 10px; font-size: 12px; line-height: 1.5; background: #f0f5ff; }
+
+        .profile-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; color: #1a3a6b; }
+        .profile-img { width: 180px; border: 1px solid #4a7fc1; padding: 5px; background: #fff; }
+
+        .orange-link { color: #1a6bbf; font-weight: bold; text-decoration: none; }
+
+        .friends-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
+        .friends-grid img { width: 90px; height: 90px; border: 1px solid #4a7fc1; }
+        .friends-grid span { display: block; font-size: 10px; margin-top: 2px; color: #1a3a6b; }
+
+        .player {
+            background: #ddeeff;
+            border: 1px solid #7aaade;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 11px;
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Record Player - EcoTrack */
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+        .recordPlayer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 20px;
+            padding-top: 10px;
+        }
+        .vinyl {
+            height: 150px;
+            margin-left: 55px;
+            padding: 10px;
+            animation: spin 1.88s linear infinite;
+            position: absolute;
+        }
+        .vinylCover {
+            height: 150px;
+            position: relative;
+            z-index: 1;
+            margin-right: 55px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+
+    <!-- FIX 3: Single, clean top nav (removed the duplicate nested one) -->
+    <div class="top-nav">
+        <a href="index.html" style="color: #ffffff;">Home</a> |
+        <a href="browse.html" style="color: #ffffff;">Browse</a> |
+        <a href="search.html" style="color: #ffffff;">Search</a> |
+        <a href="signup.html" style="color: #add4ff;">Sign Up</a> |
+        <a href="login.html" style="color: #ffffff;">Login</a> |
+        <a href="layouts.html" style="color: #ffffff;">Layouts</a> |
+        <a href="profile.html" style="color: #ffffff;">My Profile</a> |
+        <a href="edit_profile.html" style="color: #ffffff;">Edit Profile</a> |
+        <a href="mail.html" style="color: #ffffff;">Mail (0)</a> |
+        <a href="logout.html" style="color: #ffffff;">Logout</a>
+    </div>
+
+    <!-- Boss's Status -->
+    <div class="status-box">
+        <b>Boss is:</b> <span style="color: #555;">Thinking about how i can save the Seals</span>
+        <div style="font-size: 10px; color: #999; margin-top: 4px;">Posted: 2 minutes ago</div>
+    </div>
+
+    <div class="profile-columns">
+        <!-- LEFT COLUMN -->
+        <div class="left-side">
+            <div class="profile-name">Boss</div>
+
+            <!-- FIX 1: Closed the missing quote on the src attribute -->
+            <img src="https://i.imgur.com/mf9z4RH.jpeg" class="profile-img">
+
+            <p style="font-size:12px;"><b>"I'm just a guy making the world better."</b><br>
+            Male<br>Earth</p>
+
+            <div class="content-box">
+                <div class="box-head">Contacting Boss</div>
+                <div class="box-body">
+                    <table width="100%" style="font-size:11px;">
+                        <tr>
+                            <td><a href="#" class="orange-link">Send Message</a></td>
+                            <td><a href="#" class="orange-link">Add Friend</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#" class="orange-link">Add Favorite</a></td>
+                            <td><a href="#" class="orange-link">Rank Friend</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-head">Boss's Interests</div>
+                <div class="box-body">
+                    <b>General:</b> Composting, Fixing old bikes, Hiking.<br>
+                    <b>Music:</b> Acoustic stuff, anything with birds chirping in the background.
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="right-side">
+            <div style="border: 2px solid #4a7fc1; padding: 10px; margin-bottom: 20px; font-size: 14px; text-align: center; color: #1a3a6b;">
+                <b>Boss is your first friend on MyConservationist!</b>
+            </div>
+
+            <div class="content-box">
+                <div class="box-head">Boss's Blurbs</div>
+                <!-- FIX 2: Removed the broken/incomplete <div style= that had no value or closing bracket -->
+                <div class="box-body">
+                    <p><span class="orange-link">About me:</span><br>
+                    Hi, I'm Boss. I'm not a scientist or a politician I'm just a regular kid who loves the outdoors. I started this site because of a school project and now were here. A place where we could talk about simple ways to help the environment without it feeling like a chore. Whether it's planting a single tomato plant or picking up one piece of trash on a walk, it all counts!</p>
+
+                    <p><span class="orange-link">Who I'd like to meet:</span><br>
+                    People who are curious about living a bit greener. If you have a tip for reducing waste, leave me a comment!</p>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-head">Boss's Top 8</div>
+                <div class="box-body">
+                    <!-- FIX 5: Fixed placeholder image URLs to include a size -->
+                    <div class="friends-grid">
+                        <div><img src="https://via.placeholder.com/90"><span>RecycleGuy</span></div>
+                        <div><img src="https://via.placeholder.com/90"><span>TreeLover</span></div>
+                        <div><img src="https://via.placeholder.com/90"><span>OceanBlue</span></div>
+                        <div><img src="https://via.placeholder.com/90"><span>CompostJim</span></div>
+                        <div><img src="https://via.placeholder.com/90"><span>Windy</span></div>
+                        <div><img src="https://via.placeholder.com/90"><span>TheBees</span></div>
+                        <div><img src="https://via.placeholder.com/90"><span>SolarGirl</span></div>
+                        <div><img src="https://via.placeholder.com/90"><span>You!</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-head">🎵 Boss's EcoTrack</div>
+                <div class="box-body" style="text-align:center;">
+                    <div style="font-size:11px; color:#555; margin-bottom:4px;">Now spinning...</div>
+                    <div class="recordPlayer">
+                        <img class="vinyl" src="https://beta.vinylify.com/wp-content/uploads/2018/05/vinyl-black.png"/>
+                        <img class="vinylCover" src="https://m.media-amazon.com/images/I/81aECQlJWwL._UF894,1000_QL80_.jpg"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-head">Boss's Friend Comments</div>
+                <div class="box-body">
+                    <!-- Empty for now -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<center style="font-size:10px; margin-top:20px; color:#4a7fc1;">
+    MyConservationist ©2026 | Built by Boss
+</center>
+
+</body>
+</html>
