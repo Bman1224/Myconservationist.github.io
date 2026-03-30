@@ -3,201 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <title>MyConservationist | Login</title>
+    <script src="auth.js"></script>
     <style>
-        body {
-            background-color: #d5e1ef;
-            background-image: url('https://www.transparenttextures.com');
-            font-family: Verdana, Arial, Helvetica, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
+        body { background-color: #ccd9f0; font-family: Verdana, Arial, Helvetica, sans-serif; margin: 0; padding: 40px 20px; }
+        .top-nav { background: #1a3a6b; color: #fff; padding: 6px; text-align: center; font-size: 11px; margin-bottom: 30px; max-width: 420px; margin-left: auto; margin-right: auto; }
+        .top-nav a { color: #add4ff; text-decoration: none; margin: 0 8px; font-weight: bold; }
 
-        .main-wrapper {
-            width: 500px;
+        .login-box {
+            width: 100%; max-width: 420px;
             margin: 0 auto;
-            background: #fff;
-            border: 1px solid #d5e1ef;
-            padding: 30px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            background: #eef3fb;
+            border: 1px solid #a0b8e0;
+            box-shadow: 2px 2px 8px rgba(0,0,100,0.12);
         }
+        .login-head {
+            background: #2a5da8; color: #fff;
+            padding: 10px 14px; font-weight: bold; font-size: 15px;
+        }
+        .login-body { padding: 20px; }
 
-        .top-nav {
-            background: #336633;
-            color: #fff;
-            padding: 6px;
-            text-align: center;
-            font-size: 11px;
-            margin-bottom: 20px;
+        label { display: block; font-size: 11px; font-weight: bold; color: #1a3a6b; margin-bottom: 4px; }
+        input[type=email], input[type=password] {
+            width: 100%; padding: 8px 10px; border: 1px solid #4a7fc1;
+            font-size: 13px; background: #fff; box-sizing: border-box; margin-bottom: 14px;
         }
-        .top-nav a { color: #6699cc; text-decoration: none; margin: 0 8px; font-weight: bold; }
+        input:focus { outline: 2px solid #2a5da8; }
 
-        .login-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #336633;
-            text-align: center;
-            margin-bottom: 30px;
+        .btn {
+            width: 100%; padding: 10px; background: #2a5da8; color: #fff;
+            border: none; font-size: 13px; font-weight: bold; cursor: pointer;
         }
+        .btn:hover { background: #1a3a6b; }
+        .btn:disabled { background: #7aaade; cursor: not-allowed; }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .divider { text-align: center; font-size: 11px; color: #888; margin: 14px 0; }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-            font-size: 12px;
+        .msg {
+            padding: 8px 10px; font-size: 12px; margin-bottom: 12px;
+            display: none; border-radius: 2px;
         }
+        .msg.error { background: #fdecea; border: 1px solid #e57373; color: #b71c1c; display: block; }
+        .msg.success { background: #e8f5e9; border: 1px solid #81c784; color: #1b5e20; display: block; }
+        .msg.info { background: #ddeeff; border: 1px solid #4a7fc1; color: #1a3a6b; display: block; }
 
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 12px;
-            box-sizing: border-box;
-        }
+        .footer-links { text-align: center; font-size: 11px; margin-top: 14px; color: #555; }
+        .footer-links a { color: #2a5da8; text-decoration: none; font-weight: bold; }
+        .footer-links a:hover { text-decoration: underline; }
 
-        .form-group input:focus {
-            outline: none;
-            border: 1px solid #6699cc;
-            background-color: #f9f9f9;
-        }
+        .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background-color: #336633;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .login-btn:hover {
-            background-color: #2d5a2d;
-        }
-
-        .error-message {
-            color: #d32f2f;
-            font-size: 12px;
-            text-align: center;
-            display: none;
-            margin: 15px 0;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            font-size: 12px;
-        }
-
-        .remember-me input {
-            width: auto;
-            margin-right: 5px;
-        }
-
-        .signup-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-        }
-
-        .signup-link a {
-            color: #6699cc;
-            text-decoration: none;
-            font-weight: bold;
-        }
+        footer { font-size: 10px; margin-top: 24px; color: #4a7fc1; text-align: center; }
     </style>
 </head>
 <body>
 
-<div class="main-wrapper">
-    <div class="top-nav">
-        <a href="index.html">Home</a> | 
-        <a href="browse.html">Browse</a> | 
-        <a href="search.html">Search</a> | 
-        <a href="signup.html">Sign Up</a> | 
-        <a href="login.html" style="color: #ffcc80;">Login</a> | 
-        <a href="layouts.html">Layouts</a>
-    </div>
+<div class="top-nav">
+    <a href="index.html">Home</a> |
+    <a href="browse.html">Browse</a> |
+    <a href="signup.html">Sign Up</a>
+</div>
 
-    <div class="login-title">Login to MyConservationist</div>
+<div class="login-box">
+    <div class="login-head">🌿 Log In to MyConservationist</div>
+    <div class="login-body">
 
-    <form id="loginForm">
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required placeholder="your@email.com">
+        <div class="msg" id="msgBox"></div>
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+
+        <button class="btn" id="loginBtn" onclick="doLogin()">Log In</button>
+
+        <div class="divider">— or —</div>
+
+        <div class="footer-links">
+            Don't have an account? <a href="signup.html">Sign Up</a><br><br>
+            <a href="forgot.html">Forgot your password?</a>
         </div>
-
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required placeholder="Enter your password">
-        </div>
-
-        <div class="form-group remember-me">
-            <input type="checkbox" id="rememberMe" name="rememberMe">
-            <label for="rememberMe" style="margin: 0;">Remember me</label>
-        </div>
-
-        <button type="submit" class="login-btn">Log In</button>
-        <div class="error-message" id="errorMessage"></div>
-    </form>
-
-    <div class="signup-link">
-        Don't have an account? <a href="signup.html">Sign up here</a>
     </div>
 </div>
 
+<footer>MyConservationist ©2026 | Built by Boss</footer>
+
 <script>
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
+// If already logged in, send straight to homepage
+onSupabaseReady(async () => {
+    const user = await getUser();
+    if (user) window.location.href = "index.html";
+});
 
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value;
-        const rememberMe = document.getElementById('rememberMe').checked;
+async function doLogin() {
+    const email    = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const btn      = document.getElementById("loginBtn");
+    const msg      = document.getElementById("msgBox");
 
-        document.getElementById('errorMessage').style.display = 'none';
+    // Basic validation
+    if (!email || !password) {
+        showMsg("Please fill in both fields.", "error"); return;
+    }
 
-        try {
-            // TODO: Replace with actual authentication
-            // For now, use localStorage as demo
-            const userData = {
-                email,
-                password,
-                loginTime: new Date().toISOString()
-            };
+    // Loading state
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Logging in…';
+    msg.className = "msg";
 
-            localStorage.setItem('authToken', JSON.stringify(userData));
-            
-            if (rememberMe) {
-                localStorage.setItem('rememberMe', 'true');
-                localStorage.setItem('userEmail', email);
+    onSupabaseReady(async () => {
+        const { data, error } = await signIn(email, password);
+
+        if (error) {
+            if (error.message.includes("Email not confirmed")) {
+                showMsg("⚠️ Please check your email and click the confirmation link before logging in.", "info");
+            } else if (error.message.includes("Invalid login")) {
+                showMsg("Incorrect email or password. Try again.", "error");
+            } else {
+                showMsg(error.message, "error");
             }
-
-            // Redirect to profile
-            setTimeout(() => {
-                window.location.href = 'profile.html';
-            }, 500);
-        } catch (error) {
-            console.error('Error:', error);
-            document.getElementById('errorMessage').textContent = 'An error occurred. Please try again.';
-            document.getElementById('errorMessage').style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = "Log In";
+            return;
         }
-    });
 
-    // Auto-fill if remember me was checked
-    window.addEventListener('load', function() {
-        if (localStorage.getItem('rememberMe') === 'true') {
-            document.getElementById('email').value = localStorage.getItem('userEmail');
-            document.getElementById('rememberMe').checked = true;
-        }
+        showMsg("✅ Logged in! Redirecting…", "success");
+        setTimeout(() => window.location.href = "index.html", 800);
     });
+}
+
+function showMsg(text, type) {
+    const el = document.getElementById("msgBox");
+    el.textContent = text;
+    el.className = "msg " + type;
+}
+
+// Allow Enter key to submit
+document.addEventListener("keydown", e => {
+    if (e.key === "Enter") doLogin();
+});
 </script>
-
 </body>
 </html>
