@@ -34,7 +34,7 @@ async function signUp(email, password, displayName) {
         password,
         options: {
             data: { display_name: displayName },       // stored in user metadata
-            emailRedirectTo: window.location.origin + "/index.html"
+            emailRedirectTo: window.location.origin + "/confirm.html"
         }
     });
     return { data, error };
