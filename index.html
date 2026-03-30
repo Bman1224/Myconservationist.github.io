@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
-<script>
-    window.Brevo = window.Brevo || [];
-    Brevo.push(["init", { client_key: "nbrw92437k4pua9ac1lwu7fs" }]);
-</script>
-<!-- Load Supabase auth helper -->
-<script src="auth.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>MyConservationist | Home</title>
+    <script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
+    <script>
+        window.Brevo = window.Brevo || [];
+        Brevo.push(["init", { client_key: "nbrw92437k4pua9ac1lwu7fs" }]);
+    </script>
+    <!-- Supabase auth — if file is missing or keys are wrong, page still works as guest -->
+    <script src="auth.js" onerror="window._authJsMissing=true"></script>
     <style>
         body { background-color: #ccd9f0; font-family: Verdana, Arial, Helvetica, sans-serif; margin: 0; padding: 20px; }
 
@@ -268,17 +268,26 @@ const TIPS = [
 ];
 
 // ── Main auth check ──────────────────────────────────────────
-onSupabaseReady(async () => {
-    const user = await getUser();
+// Fallback: if Supabase never loads (missing keys, no internet, etc.)
+// show the guest view after 2.5 seconds instead of spinning forever
+const _authTimeout = setTimeout(() => showGuest(), 2500);
 
-    document.getElementById("loadingView").style.display = "none";
+function _runAuthCheck() {
+    clearTimeout(_authTimeout);
+    getUser().then(user => {
+        document.getElementById("loadingView").style.display = "none";
+        if (user) { showLoggedIn(user); } else { showGuest(); }
+    }).catch(() => showGuest());
+}
 
-    if (user) {
-        showLoggedIn(user);
-    } else {
-        showGuest();
-    }
-});
+// If auth.js loaded and Supabase is ready, run immediately
+if (typeof onSupabaseReady === "function") {
+    onSupabaseReady(_runAuthCheck);
+} else {
+    // auth.js not present at all — just show guest
+    clearTimeout(_authTimeout);
+    showGuest();
+}
 
 function showGuest() {
     document.getElementById("guestView").style.display = "block";
