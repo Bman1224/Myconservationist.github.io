@@ -2,181 +2,198 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyConservationist | Sign Up</title>
-    <script src="auth.js"></script>
     <style>
-        body { background-color: #ccd9f0; font-family: Verdana, Arial, Helvetica, sans-serif; margin: 0; padding: 40px 20px; }
-        .top-nav { background: #1a3a6b; color: #fff; padding: 6px; text-align: center; font-size: 11px; margin-bottom: 30px; max-width: 440px; margin-left: auto; margin-right: auto; }
-        .top-nav a { color: #add4ff; text-decoration: none; margin: 0 8px; font-weight: bold; }
-
-        .signup-box {
-            width: 100%; max-width: 440px; margin: 0 auto;
-            background: #eef3fb; border: 1px solid #a0b8e0;
-            box-shadow: 2px 2px 8px rgba(0,0,100,0.12);
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
         }
-        .signup-head { background: #2a5da8; color: #fff; padding: 10px 14px; font-weight: bold; font-size: 15px; }
-        .signup-body { padding: 20px; }
-
-        label { display: block; font-size: 11px; font-weight: bold; color: #1a3a6b; margin-bottom: 4px; }
-        input[type=text], input[type=email], input[type=password] {
-            width: 100%; padding: 8px 10px; border: 1px solid #4a7fc1;
-            font-size: 13px; background: #fff; box-sizing: border-box; margin-bottom: 14px;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        input:focus { outline: 2px solid #2a5da8; }
-
-        .rules { font-size: 10px; color: #666; margin-top: -10px; margin-bottom: 14px; line-height: 1.6; }
-        .strength-bar { height: 4px; background: #ddd; margin-bottom: 14px; margin-top: -12px; }
-        .strength-bar div { height: 100%; width: 0%; transition: width 0.3s, background 0.3s; }
-
-        .btn { width: 100%; padding: 10px; background: #2a5da8; color: #fff; border: none; font-size: 13px; font-weight: bold; cursor: pointer; }
-        .btn:hover { background: #1a3a6b; }
-        .btn:disabled { background: #7aaade; cursor: not-allowed; }
-
-        .msg { padding: 8px 10px; font-size: 12px; margin-bottom: 12px; display: none; }
-        .msg.error   { background: #fdecea; border: 1px solid #e57373; color: #b71c1c; display: block; }
-        .msg.success { background: #e8f5e9; border: 1px solid #81c784; color: #1b5e20; display: block; }
-
-        /* Email-sent confirmation screen */
-        .confirm-screen { display: none; text-align: center; padding: 30px 20px; }
-        .confirm-screen.show { display: block; }
-        .confirm-icon { font-size: 48px; margin-bottom: 12px; }
-        .confirm-screen h2 { color: #1a3a6b; font-size: 16px; margin-bottom: 8px; }
-        .confirm-screen p { font-size: 12px; color: #555; line-height: 1.7; }
-
-        .footer-links { text-align: center; font-size: 11px; margin-top: 14px; color: #555; }
-        .footer-links a { color: #2a5da8; text-decoration: none; font-weight: bold; }
-
-        .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        footer { font-size: 10px; margin-top: 24px; color: #4a7fc1; text-align: center; }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #2e7d32;
+        }
+        .signup-container {
+            max-width: 400px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .signup-container h2 {
+            color: #2e7d32;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .password-hint {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .btn {
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #1b5e20;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .confirmation-message {
+            display: none;
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .error-message {
+            color: #d32f2f;
+            background: #ffebee;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            margin-top: 40px;
+        }
     </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>🌿 MyConservationist</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="browse.html">Browse</a>
+                <a href="login.html">Log In</a>
+            </nav>
+        </header>
 
-<div class="top-nav">
-    <a href="index.html">Home</a> |
-    <a href="browse.html">Browse</a> |
-    <a href="login.html">Log In</a>
-</div>
-
-<div class="signup-box">
-    <div class="signup-head">🌿 Join MyConservationist</div>
-
-    <!-- Sign Up Form -->
-    <div class="signup-body" id="signupForm">
-        <div class="msg" id="msgBox"></div>
-
-        <label for="displayName">Display Name</label>
-        <input type="text" id="displayName" placeholder="e.g. OceanBlue" maxlength="30">
-
-        <label for="email">Email Address</label>
-        <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
-
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Min. 8 characters" oninput="checkStrength(this.value)">
-        <div class="strength-bar"><div id="strengthBar"></div></div>
-        <div class="rules">Must be at least 8 characters.</div>
-
-        <label for="confirm">Confirm Password</label>
-        <input type="password" id="confirm" placeholder="Repeat password">
-
-        <button class="btn" id="signupBtn" onclick="doSignup()">Create Account</button>
-
-        <div class="footer-links" style="margin-top:14px;">
-            Already have an account? <a href="login.html">Log In</a>
+        <div class="signup-container">
+            <h2>Join MyConservationist</h2>
+            
+            <div id="errorMessage" class="error-message"></div>
+            
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="displayName">Display Name</label>
+                    <input type="text" id="displayName" name="displayName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <div class="password-hint">Must be at least 8 characters.</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                
+                <button type="submit" class="btn">Create Account</button>
+            </form>
+            
+            <div class="login-link">
+                Already have an account? <a href="login.html">Log In</a>
+            </div>
+            
+            <div id="confirmationMessage" class="confirmation-message">
+                <h3>📬 Check your email!</h3>
+                <p>We sent a confirmation link to <span id="userEmail"></span></p>
+                <p>Click the link in that email to activate your account, then come back and log in.</p>
+                <p>Didn't get it? Check your spam folder, or <a href="#" id="resendEmail">resend the email</a>.</p>
+            </div>
         </div>
+        
+        <footer>
+            <p>MyConservationist ©2026 | Built by Boss</p>
+        </footer>
     </div>
 
-    <!-- Email Confirmation Screen (shown after signup) -->
-    <div class="confirm-screen" id="confirmScreen">
-        <div class="confirm-icon">📬</div>
-        <h2>Check your email!</h2>
-        <p>
-            We sent a confirmation link to<br>
-            <b id="confirmedEmail"></b><br><br>
-            Click the link in that email to activate your account,
-            then come back and <a href="login.html" style="color:#2a5da8;">log in</a>.
-        </p>
-        <p style="font-size:10px;color:#999;margin-top:16px;">
-            Didn't get it? Check your spam folder, or
-            <a href="#" onclick="resendEmail()" style="color:#2a5da8;">resend the email</a>.
-        </p>
-    </div>
-</div>
-
-<footer>MyConservationist ©2026 | Built by Boss</footer>
-
-<script>
-// If already logged in, redirect
-onSupabaseReady(async () => {
-    const user = await getUser();
-    if (user) window.location.href = "index.html";
-});
-
-let _lastEmail = "";
-
-async function doSignup() {
-    const name     = document.getElementById("displayName").value.trim();
-    const email    = document.getElementById("email").value.trim();
-    const pass     = document.getElementById("password").value;
-    const confirm  = document.getElementById("confirm").value;
-    const btn      = document.getElementById("signupBtn");
-
-    // Validation
-    if (!name)               { showMsg("Please enter a display name.", "error"); return; }
-    if (!email)              { showMsg("Please enter your email.", "error"); return; }
-    if (pass.length < 8)     { showMsg("Password must be at least 8 characters.", "error"); return; }
-    if (pass !== confirm)    { showMsg("Passwords don't match.", "error"); return; }
-
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>Creating account…';
-
-    // Wait until Supabase is fully ready
-await new Promise(resolve => onSupabaseReady(resolve));
-
-console.log("Supabase is ready, sending signup...");
-
-const { data, error } = await signUp(email, pass, name);
-console.log("Signup result:", { data, error });
-        if (error) {
-            showMsg(error.message, "error");
-            btn.disabled = false;
-            btn.textContent = "Create Account";
-            return;
-        }
-
-        // Show email confirmation screen
-        _lastEmail = email;
-        document.getElementById("signupForm").style.display = "none";
-        document.getElementById("confirmedEmail").textContent = email;
-        document.getElementById("confirmScreen").classList.add("show");
-}
-
-async function resendEmail() {
-    if (!_lastEmail) return;
-    await window._supa.auth.resend({ type: "signup", email: _lastEmail });
-    alert("Confirmation email resent to " + _lastEmail);
-}
-
-function checkStrength(val) {
-    const bar = document.getElementById("strengthBar");
-    let score = 0;
-    if (val.length >= 8)  score++;
-    if (val.length >= 12) score++;
-    if (/[A-Z]/.test(val)) score++;
-    if (/[0-9]/.test(val)) score++;
-    if (/[^a-zA-Z0-9]/.test(val)) score++;
-    const colors = ["#e57373","#ff9800","#ffd740","#66bb6a","#2e7d32"];
-    bar.style.width  = (score * 20) + "%";
-    bar.style.background = colors[score - 1] || "#ddd";
-}
-
-function showMsg(text, type) {
-    const el = document.getElementById("msgBox");
-    el.textContent = text;
-    el.className = "msg " + type;
-}
-</script>
-</body>
-</html>
+    <!-- Include auth.js -->
+    <script src="auth.js"></script>
+    
+    <!-- Form handling script -->
+    <script>
+        // Wait for Supabase to be ready
+        document.addEventListener('supabase:ready', function() {
+            const signupForm = document.getElementById('signupForm');
+            const errorMessage = document.getElementById('errorMessage');
+            const confirmationMessage = document.getElementById('confirmationMessage');
+            const userEmailSpan = document.getElementById('userEmail');
+            const resendLink = document.getElementById('resendEmail');
+            
+            signupForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Reset error message
+                errorMessage.style.display = 'none';
+                
+                // Get form values
+                const displayName = document.getElementById('displayName').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                
+                // Validation
+                if (password !== confirmPassword) {
+                    showError('Passwords do not match');
+                    return;
+                }
+                
+                if (password.length < 8) {
+                    showError('Password must be at least 8 characters');
+                    return;
+                }
+                
+                // Show loading state
+                const submitBtn = sign
