@@ -262,29 +262,10 @@ const TIPS = [
     "Share a green tip with a friend. Change spreads person to person. 🌱",
 ];
 
-// ── Main auth check ──────────────────────────────────────────
-// Fallback: if Supabase never loads (missing keys, no internet, etc.)
-// show the guest view after 2.5 seconds instead of spinning forever
-const _authTimeout = setTimeout(() => showGuest(), 2500);
-
-function _runAuthCheck() {
-    clearTimeout(_authTimeout);
-    getUser().then(user => {
-        document.getElementById("loadingView").style.display = "none";
-        if (user) { showLoggedIn(user); } else { showGuest(); }
-    }).catch(() => showGuest());
-}
-
-// If auth.js loaded and Supabase is ready, run immediately
-if (typeof onSupabaseReady === "function") {
-    onSupabaseReady(_runAuthCheck);
-} else {
-    // auth.js not present at all — just show guest
-    clearTimeout(_authTimeout);
-    showGuest();
-}
+// ── Functions declared first so timeout can call them safely ──
 
 function showGuest() {
+    document.getElementById("loadingView").style.display = "none";
     document.getElementById("guestView").style.display = "block";
     document.getElementById("topNav").innerHTML = `
         <a href="index.html" style="color:#ffffff;">Home</a> |
@@ -297,13 +278,13 @@ function showGuest() {
 }
 
 function showLoggedIn(user) {
+    document.getElementById("loadingView").style.display = "none";
     document.getElementById("loggedinView").style.display = "block";
 
     const name = user.user_metadata?.display_name || user.email.split("@")[0];
     document.getElementById("dashName").textContent  = name;
     document.getElementById("dashEmail").textContent = user.email;
 
-    // Tip of the day (changes daily)
     const tip = TIPS[new Date().getDate() % TIPS.length];
     document.getElementById("tipOfDay").textContent = tip;
 
@@ -322,8 +303,29 @@ function showLoggedIn(user) {
 function updateStatus() {
     const val = document.getElementById("statusInput").value.trim();
     if (!val) return;
-    alert("Status updated: "" + val + """);
+    alert("Status updated: \u201c" + val + "\u201d");
     document.getElementById("statusInput").value = "";
+}
+
+// ── Auth check — runs after functions are defined ─────────────
+
+// Safety net: always show guest after 3s if nothing else fires
+const _authTimeout = setTimeout(showGuest, 3000);
+
+function _runAuthCheck() {
+    clearTimeout(_authTimeout);
+    if (typeof getUser !== "function") { showGuest(); return; }
+    getUser()
+        .then(user => { user ? showLoggedIn(user) : showGuest(); })
+        .catch(showGuest);
+}
+
+// Wait for Supabase SDK, or fall back immediately if auth.js is missing
+if (typeof onSupabaseReady === "function") {
+    onSupabaseReady(_runAuthCheck);
+} else {
+    clearTimeout(_authTimeout);
+    showGuest();
 }
 </script>
 </body>
