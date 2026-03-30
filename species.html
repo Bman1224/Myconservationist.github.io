@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endangered Species List</title>
+    <style>
+        body {
+            background-color: #DFE8F6; /* Retro pale blue background */
+            font-family: "Trebuchet MS", Arial, sans-serif;
+            color: #000;
+            margin: 20px 0;
+        }
+        
+        .main-wrapper {
+            width: 800px;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            border: 2px solid #1E4B8C;
+        }
+        
+        .top-nav {
+            background-color: #1E4B8C;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .top-nav a {
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 0 5px;
+        }
+        
+        .top-nav a:hover {
+            text-decoration: underline;
+        }
+        
+        .header-banner {
+            background-color: #8CAAE6;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #1E4B8C;
+        }
+        
+        .header-banner h1 {
+            margin: 0;
+            color: #1E4B8C;
+            font-size: 24px;
+        }
+        
+        .content-box {
+            padding: 20px;
+        }
+        
+        .species-module {
+            border: 1px solid #1E4B8C;
+            margin-bottom: 15px;
+            background-color: #F9F9F9;
+        }
+        
+        .module-header {
+            background-color: #D0DCEB;
+            padding: 5px 10px;
+            font-weight: bold;
+            border-bottom: 1px solid #1E4B8C;
+            color: #1E4B8C;
+        }
+        
+        .module-content {
+            padding: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .species-name {
+            font-size: 18px;
+            color: #1E4B8C;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .species-name:hover {
+            text-decoration: underline;
+        }
+        
+        .scientific {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            font-weight: bold;
+            color: #FFF;
+            font-size: 12px;
+            border: 1px solid #000;
+            margin-top: 10px;
+        }
+        
+        .status.cr { background-color: #D32F2F; } /* Critically Endangered - Red */
+        .status.en { background-color: #F57C00; } /* Endangered - Orange */
+        .status.vu { background-color: #FBC02D; color: #000; } /* Vulnerable - Yellow */
+        
+        .source-note {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 25px;
+            padding-top: 10px;
+            border-top: 1px dashed #CCC;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="top-nav">
+        <a href="index.html">Home</a> | 
+        <a href="species.html">Browse Species</a> | 
+        <a href="signup.html">Register</a> | 
+        <a href="login.html">Login</a>
+    </div>
+
+    <div class="header-banner">
+        <h1>Global Species Directory</h1>
+    </div>
+
+    <div class="content-box">
+        <p>Welcome to the directory. Below is data on at-risk wildlife. Click any species name to view its detailed webpage.</p>
+
+        <div class="species-module">
+            <div class="module-header">Marine Mammals</div>
+            <div class="module-content">
+                <a href="https://bman1224.github.io/Myconservationist.github.io/Galapagoslion.html" target="_blank" class="species-name">Galápagos Sea Lion</a>
+                <div class="scientific">Zalophus wollebaeki</div>
+            </div>
+        </div>
+
+        <div class="species-module">
+            <div class="module-header">Large Mammals</div>
+            <div class="module-content">
+                <a href="https://bman1224.github.io/Myconservationist.github.io/JavanRhino.html" target="_blank" class="species-name">Javan Rhinoceros</a>
+                <div class="scientific">Rhinoceros sondaicus</div>
+               
+                <div class="status cr">IUCN Status: Critically Endangered (CR)</div>
+            </div>
+        </div>
+
+        <div class="species-module">
+            <div class="module-header">Marine Reptiles</div>
+            <div class="module-content">
+                <a href="https://bman1224.github.io/Myconservationist.github.io/hawksbillturtle.html" target="_blank" class="species-name">Hawksbill Sea Turtle</a>
+                <div class="scientific">Eretmochelys imbricata</div>
+               
+                <div class="status cr">IUCN Status: Critically Endangered (CR)</div>
+            </div>
+        </div>
+        
+        <div class="source-note">
+            Data sourced from the International Union for Conservation of Nature (IUCN) Red List of Threatened Species.
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
