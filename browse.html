@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>MyConservationist | Browse Members</title>
+    <script src="auth.js" onerror="window._authJsMissing=true"></script>
     <style>
         body { background-color: #ccd9f0; font-family: Verdana, Arial, Helvetica, sans-serif; margin: 0; padding: 20px; }
         .main-wrapper { width: 900px; margin: 0 auto; background: #eef3fb; border: 1px solid #a0b8e0; padding: 15px; box-shadow: 2px 2px 5px rgba(0,0,100,0.12); }
@@ -10,12 +11,16 @@
         .top-nav a { color: #add4ff; text-decoration: none; margin: 0 8px; font-weight: bold; }
         .top-nav a:hover { text-decoration: underline; }
         .page-header { background: #2a5da8; color: #fff; padding: 8px 12px; font-weight: bold; font-size: 14px; margin-bottom: 4px; }
-        .page-sub { font-size: 11px; color: #444; padding: 6px 2px 12px; border-bottom: 1px solid #a0b8e0; margin-bottom: 16px; }
+        .page-sub { font-size: 11px; color: #444; padding: 6px 2px 12px; border-bottom: 1px solid #a0b8e0; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .live-badge { background: #4caf50; color: #fff; font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 10px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+
         .filter-bar { display: flex; gap: 8px; margin-bottom: 18px; align-items: center; }
         .filter-bar select, .filter-bar input { padding: 6px 8px; border: 1px solid #4a7fc1; font-size: 11px; background: #fff; }
         .filter-bar button { padding: 6px 14px; background: #2a5da8; color: #fff; border: none; font-size: 11px; font-weight: bold; cursor: pointer; }
         .filter-bar button:hover { background: #1a3a6b; }
-        .members-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+
+        .members-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; min-height: 60px; }
         .member-card { background: #fff; border: 1px solid #4a7fc1; text-align: center; padding: 10px 8px; }
         .member-card:hover { border-color: #1a3a6b; box-shadow: 0 2px 8px rgba(0,0,100,0.1); }
         .member-card img { width: 90px; height: 90px; object-fit: cover; border: 1px solid #4a7fc1; display: block; margin: 0 auto 6px; }
@@ -23,16 +28,24 @@
         .member-name a { color: #1a3a6b; text-decoration: none; }
         .member-name a:hover { text-decoration: underline; }
         .member-detail { font-size: 10px; color: #666; margin-bottom: 4px; }
-        .member-online { display: inline-block; width: 7px; height: 7px; background: #4caf50; border-radius: 50%; margin-right: 3px; }
-        .member-offline { display: inline-block; width: 7px; height: 7px; background: #aaa; border-radius: 50%; margin-right: 3px; }
         .member-actions { margin-top: 6px; display: flex; gap: 4px; justify-content: center; }
         .member-actions a { font-size: 10px; color: #2a5da8; text-decoration: none; border: 1px solid #4a7fc1; padding: 2px 6px; background: #f0f5ff; }
         .member-actions a:hover { background: #ddeeff; }
+
         .section-label { font-size: 11px; font-weight: bold; color: #1a3a6b; margin: 18px 0 8px; border-bottom: 1px solid #a0b8e0; padding-bottom: 4px; }
-        .pagination { text-align: center; margin-top: 16px; font-size: 12px; }
-        .pagination a { display: inline-block; margin: 0 3px; padding: 4px 10px; border: 1px solid #4a7fc1; color: #2a5da8; text-decoration: none; background: #fff; }
-        .pagination a.current { background: #2a5da8; color: #fff; }
-        .pagination a:hover { background: #ddeeff; }
+
+        /* Empty / loading states */
+        .empty-state { grid-column: 1/-1; text-align: center; padding: 30px; color: #888; font-size: 12px; }
+        .empty-state .empty-icon { font-size: 36px; margin-bottom: 8px; }
+        .spinner { display: inline-block; width: 28px; height: 28px; border: 3px solid #c0d4f0; border-top-color: #2a5da8; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 10px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* New member flash animation */
+        @keyframes flashIn { from { background: #ddeeff; transform: scale(1.03); } to { background: #fff; transform: scale(1); } }
+        .member-card.new-arrival { animation: flashIn 1s ease-out; }
+
+        .member-count { font-size: 11px; color: #888; margin-bottom: 8px; }
+
         footer { font-size: 10px; margin-top: 20px; color: #4a7fc1; text-align: center; }
     </style>
 </head>
@@ -50,48 +63,171 @@
         <a href="mail.html">Mail (0)</a> |
         <a href="logout.html">Logout</a>
     </div>
+
     <div class="page-header">Browse Members</div>
-    <div class="page-sub">Discover conservationists near you and around the world.</div>
+    <div class="page-sub">
+        <span>Discover conservationists near you and around the world.</span>
+        <span class="live-badge">🔴 LIVE</span>
+    </div>
+
     <div class="filter-bar">
-        <select id="sortBy"><option value="new">Newest Members</option><option value="online">Online Now</option><option value="active">Most Active</option></select>
-        <select id="filterAge"><option value="">Any Age</option><option value="13-17">13-17</option><option value="18-25">18-25</option><option value="26-35">26-35</option><option value="36+">36+</option></select>
-        <select id="filterInterest"><option value="">Any Interest</option><option value="Oceans">Oceans</option><option value="Forests">Forests</option><option value="Wildlife">Wildlife</option><option value="Composting">Composting</option><option value="Solar">Solar/Energy</option></select>
+        <select id="sortBy">
+            <option value="new">Newest Members</option>
+            <option value="alpha">A–Z</option>
+        </select>
+        <select id="filterInterest">
+            <option value="">Any Interest</option>
+            <option value="Oceans">Oceans</option>
+            <option value="Forests">Forests</option>
+            <option value="Wildlife">Wildlife</option>
+            <option value="Composting">Composting</option>
+            <option value="Solar">Solar/Energy</option>
+        </select>
         <button onclick="applyFilter()">Go</button>
     </div>
-    <div class="section-label">🟢 Online Now</div>
-    <div class="members-grid" id="onlineGrid"></div>
-    <div class="section-label">⭐ New Members</div>
-    <div class="members-grid" id="newGrid"></div>
-    <div class="pagination">
-        <a href="#" class="current">1</a><a href="#">2</a><a href="#">3</a><a href="#">Next &raquo;</a>
+
+    <div class="section-label">⭐ All Members</div>
+    <div class="member-count" id="memberCount"></div>
+    <div class="members-grid" id="membersGrid">
+        <div class="empty-state">
+            <div class="spinner"></div><br>Loading members…
+        </div>
     </div>
 </div>
+
 <footer>MyConservationist ©2026 | Built by Boss</footer>
+
 <script>
-const members = [
-    { name:"RecycleGuy", img:"https://via.placeholder.com/90/4a7fc1/fff?text=RG", interest:"Composting", age:"22", online:true },
-    { name:"TreeLover", img:"https://via.placeholder.com/90/2d5016/fff?text=TL", interest:"Forests", age:"17", online:true },
-    { name:"OceanBlue", img:"https://via.placeholder.com/90/005082/fff?text=OB", interest:"Oceans", age:"25", online:false },
-    { name:"CompostJim", img:"https://via.placeholder.com/90/8b6f47/fff?text=CJ", interest:"Composting", age:"34", online:true },
-    { name:"Windy", img:"https://via.placeholder.com/90/607d8b/fff?text=W", interest:"Solar", age:"19", online:false },
-    { name:"TheBees", img:"https://via.placeholder.com/90/f9a825/000?text=TB", interest:"Wildlife", age:"28", online:true },
-    { name:"SolarGirl", img:"https://via.placeholder.com/90/ff6b35/fff?text=SG", interest:"Solar", age:"21", online:false },
-    { name:"WildRoots", img:"https://via.placeholder.com/90/336633/fff?text=WR", interest:"Forests", age:"31", online:true },
-    { name:"CleanWater99", img:"https://via.placeholder.com/90/0288d1/fff?text=CW", interest:"Oceans", age:"16", online:false },
-    { name:"EcoMaria", img:"https://via.placeholder.com/90/ad1457/fff?text=EM", interest:"Wildlife", age:"23", online:true },
-    { name:"BikeKid", img:"https://via.placeholder.com/90/5e35b1/fff?text=BK", interest:"Solar", age:"15", online:false },
-    { name:"GardenSam", img:"https://via.placeholder.com/90/2e7d32/fff?text=GS", interest:"Composting", age:"40", online:true },
-];
-function card(m) {
-    return '<div class="member-card"><img src="'+m.img+'" alt="'+m.name+'"><div class="member-name"><a href="profile.html">'+m.name+'</a></div><div class="member-detail"><span class="'+(m.online?'member-online':'member-offline')+'"></span>'+(m.online?'Online':'Offline')+' &bull; Age '+m.age+'</div><div class="member-detail" style="color:#2a5da8;">'+m.interest+'</div><div class="member-actions"><a href="profile.html">View</a><a href="#">+ Add</a><a href="mail.html">✉</a></div></div>';
+let _allMembers = [];
+
+// ── Render helpers ────────────────────────────────────────────
+function initials(name) {
+    return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
 }
+
+function avatarUrl(member) {
+    if (member.avatar_url) return member.avatar_url;
+    // Generate a colored placeholder from the name
+    const colors = ['4a7fc1','2d5016','005082','8b6f47','607d8b','f9a825','ff6b35','336633','0288d1','ad1457','5e35b1','2e7d32'];
+    const idx = (member.display_name || 'U').charCodeAt(0) % colors.length;
+    const ini = encodeURIComponent(initials(member.display_name || 'User'));
+    return `https://via.placeholder.com/90/${colors[idx]}/fff?text=${ini}`;
+}
+
+function card(m, isNew = false) {
+    const joined = m.created_at ? new Date(m.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '';
+    return `<div class="member-card${isNew ? ' new-arrival' : ''}">
+        <img src="${avatarUrl(m)}" alt="${m.display_name || 'Member'}" onerror="this.src='https://via.placeholder.com/90/2a5da8/fff?text=?'">
+        <div class="member-name"><a href="profile.html">${m.display_name || 'Member'}</a></div>
+        <div class="member-detail" style="color:#2a5da8;">${m.interest || ''}</div>
+        <div class="member-detail">${joined ? 'Joined ' + joined : ''}</div>
+        <div class="member-actions">
+            <a href="profile.html">View</a>
+            <a href="#">+ Add</a>
+            <a href="mail.html">✉</a>
+        </div>
+    </div>`;
+}
+
+function renderMembers(members) {
+    const grid = document.getElementById('membersGrid');
+    const count = document.getElementById('memberCount');
+
+    if (!members.length) {
+        grid.innerHTML = `<div class="empty-state">
+            <div class="empty-icon">🌱</div>
+            <b>No members yet!</b><br>
+            Be the first — <a href="signup.html" style="color:#2a5da8;">sign up now</a>.
+        </div>`;
+        count.textContent = '';
+        return;
+    }
+
+    count.textContent = members.length + ' member' + (members.length !== 1 ? 's' : '');
+    grid.innerHTML = members.map(m => card(m)).join('');
+}
+
 function applyFilter() {
+    const sort     = document.getElementById('sortBy').value;
     const interest = document.getElementById('filterInterest').value;
-    const filtered = members.filter(m => !interest || m.interest === interest);
-    document.getElementById('onlineGrid').innerHTML = filtered.filter(m=>m.online).map(card).join('');
-    document.getElementById('newGrid').innerHTML = filtered.filter(m=>!m.online).map(card).join('');
+
+    let filtered = [..._allMembers];
+
+    if (interest) {
+        filtered = filtered.filter(m => m.interest === interest);
+    }
+
+    if (sort === 'alpha') {
+        filtered.sort((a, b) => (a.display_name || '').localeCompare(b.display_name || ''));
+    } else {
+        // newest first (default — already sorted from DB)
+    }
+
+    renderMembers(filtered);
 }
-applyFilter();
+
+// ── Supabase fetch + realtime ─────────────────────────────────
+async function loadMembers() {
+    if (!window._supa) { renderMembers([]); return; }
+
+    const { data, error } = await window._supa
+        .from('profiles')
+        .select('id, display_name, avatar_url, interest, created_at')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.warn('Browse fetch error:', error.message);
+        document.getElementById('membersGrid').innerHTML = `<div class="empty-state">
+            <div class="empty-icon">⚠️</div>
+            Couldn't load members. Make sure your Supabase URL and key are set in auth.js,
+            and that you have a <b>profiles</b> table with RLS allowing public reads.
+        </div>`;
+        return;
+    }
+
+    _allMembers = data || [];
+    applyFilter();
+}
+
+function subscribeToNewMembers() {
+    if (!window._supa) return;
+
+    window._supa
+        .channel('public:profiles')
+        .on('postgres_changes', {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'profiles'
+        }, payload => {
+            // A new account was just created — add to top of list and flash it in
+            const newMember = payload.new;
+            _allMembers.unshift(newMember);
+            applyFilter();
+
+            // Flash the new card
+            requestAnimationFrame(() => {
+                const firstCard = document.querySelector('#membersGrid .member-card');
+                if (firstCard) firstCard.classList.add('new-arrival');
+            });
+        })
+        .subscribe();
+}
+
+// ── Boot ──────────────────────────────────────────────────────
+function boot() {
+    if (typeof window._supa !== 'undefined') {
+        loadMembers();
+        subscribeToNewMembers();
+    } else if (typeof onSupabaseReady === 'function') {
+        onSupabaseReady(() => { loadMembers(); subscribeToNewMembers(); });
+    } else {
+        // No Supabase — show empty state with signup prompt
+        renderMembers([]);
+    }
+}
+
+// Small delay so auth.js has time to init the client
+setTimeout(boot, 100);
 </script>
 </body>
 </html>
