@@ -7,7 +7,7 @@
 //  https://supabase.com → your project → Settings → API
 // ============================================================
 
-const SUPABASE_URL  = "https://YOUR_PROJECT_ID.supabase.co";   // ← replace
+const SUPABASE_URL  = "https://zwueersrwhchbgvxfvsy.supabase.co";   // ← replace
 const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3dWVlcnNyd2hjaGJndnhmdnN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MjI0OTQsImV4cCI6MjA5MDM5ODQ5NH0.3I-SKt_dFPVZNCaiHPoXyUH7scGObv2k7STtoWXl7YU";                  // ← replace
 
 // Load Supabase SDK from CDN
