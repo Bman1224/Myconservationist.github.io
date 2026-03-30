@@ -2,226 +2,325 @@
 <html lang="en">
 <script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
 <script>
-    // Version: 2.0
     window.Brevo = window.Brevo || [];
-    Brevo.push([
-        "init",
-        {
-            client_key: "nbrw92437k4pua9ac1lwu7fs",
-        }
-    ]);
+    Brevo.push(["init", { client_key: "nbrw92437k4pua9ac1lwu7fs" }]);
 </script>
+<!-- Load Supabase auth helper -->
+<script src="auth.js"></script>
 <head>
     <meta charset="UTF-8">
-    <title>MyConservationist | Boss's Profile</title>
+    <title>MyConservationist | Home</title>
     <style>
-        body {
-            background-color: #ccd9f0;
-            font-family: Verdana, Arial, Helvetica, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
+        body { background-color: #ccd9f0; font-family: Verdana, Arial, Helvetica, sans-serif; margin: 0; padding: 20px; }
 
-        .main-wrapper {
-            width: 800px;
-            margin: 0 auto;
-            background: #eef3fb;
-            border: 1px solid #a0b8e0;
-            padding: 15px;
-            box-shadow: 2px 2px 5px rgba(0,0,100,0.12);
-        }
+        .main-wrapper { width: 800px; margin: 0 auto; background: #eef3fb; border: 1px solid #a0b8e0; padding: 15px; box-shadow: 2px 2px 5px rgba(0,0,100,0.12); }
 
-        .status-box {
-            background: #ddeeff;
-            border: 1px solid #7aaade;
-            padding: 10px;
-            margin-bottom: 15px;
-            font-size: 13px;
-        }
-
-        /* FIX 3: Removed duplicate top-nav — now only one */
-        .top-nav {
-            background: #1a3a6b;
-            color: #fff;
-            padding: 6px;
-            text-align: center;
-            font-size: 11px;
-            margin-bottom: 20px;
-        }
+        .top-nav { background: #1a3a6b; color: #fff; padding: 6px; text-align: center; font-size: 11px; margin-bottom: 20px; }
         .top-nav a { color: #add4ff; text-decoration: none; margin: 0 8px; font-weight: bold; }
+        .top-nav a:hover { text-decoration: underline; }
 
-        .profile-columns { display: flex; gap: 20px; }
-        .left-side { width: 300px; }
-        .right-side { width: 480px; }
+        .status-box { background: #ddeeff; border: 1px solid #7aaade; padding: 10px; margin-bottom: 15px; font-size: 13px; }
 
         .content-box { border: 1px solid #4a7fc1; margin-bottom: 15px; }
         .box-head { background: #2a5da8; color: #fff; padding: 4px 8px; font-weight: bold; font-size: 13px; }
         .box-body { padding: 10px; font-size: 12px; line-height: 1.5; background: #f0f5ff; }
 
-        .profile-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; color: #1a3a6b; }
-        .profile-img { width: 180px; border: 1px solid #4a7fc1; padding: 5px; background: #fff; }
+        .profile-columns { display: flex; gap: 20px; }
+        .left-side { width: 300px; }
+        .right-side { flex: 1; }
 
-        .orange-link { color: #1a6bbf; font-weight: bold; text-decoration: none; }
+        .profile-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; color: #1a3a6b; }
+        .profile-img { width: 180px; border: 1px solid #4a7fc1; padding: 5px; background: #fff; display: block; }
+
+        .blue-link { color: #1a6bbf; font-weight: bold; text-decoration: none; }
+        .blue-link:hover { text-decoration: underline; }
 
         .friends-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
         .friends-grid img { width: 90px; height: 90px; border: 1px solid #4a7fc1; }
         .friends-grid span { display: block; font-size: 10px; margin-top: 2px; color: #1a3a6b; }
 
-        .player {
-            background: #ddeeff;
-            border: 1px solid #7aaade;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 11px;
-            display: flex;
-            gap: 10px;
-        }
+        /* Record Player */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .recordPlayer { display: flex; justify-content: center; align-items: center; padding: 10px 0 20px; }
+        .vinyl { height: 150px; margin-left: 55px; padding: 10px; animation: spin 1.88s linear infinite; position: absolute; }
+        .vinylCover { height: 150px; position: relative; z-index: 1; margin-right: 55px; }
 
-        /* Record Player - EcoTrack */
-        @keyframes spin {
-            100% { transform: rotate(360deg); }
+        /* ── GUEST LANDING ─────────────────────────────────── */
+        .guest-hero {
+            background: linear-gradient(135deg, #1a3a6b 0%, #2a5da8 100%);
+            color: #fff; text-align: center; padding: 40px 20px; margin-bottom: 20px;
         }
-        .recordPlayer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding-bottom: 20px;
-            padding-top: 10px;
+        .guest-hero h1 { font-size: 26px; margin: 0 0 10px; }
+        .guest-hero p  { font-size: 13px; color: #c8dcff; margin: 0 0 24px; }
+        .hero-btns { display: flex; gap: 12px; justify-content: center; }
+        .hero-btn-primary {
+            padding: 10px 28px; background: #fff; color: #1a3a6b;
+            font-weight: bold; font-size: 13px; text-decoration: none; border: none; cursor: pointer;
         }
-        .vinyl {
-            height: 150px;
-            margin-left: 55px;
-            padding: 10px;
-            animation: spin 1.88s linear infinite;
-            position: absolute;
+        .hero-btn-primary:hover { background: #ddeeff; }
+        .hero-btn-secondary {
+            padding: 10px 28px; background: transparent; color: #fff;
+            font-weight: bold; font-size: 13px; text-decoration: none;
+            border: 2px solid #add4ff; cursor: pointer;
         }
-        .vinylCover {
-            height: 150px;
-            position: relative;
-            z-index: 1;
-            margin-right: 55px;
+        .hero-btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+        .feature-card { background: #fff; border: 1px solid #4a7fc1; padding: 14px; text-align: center; }
+        .feature-card .icon { font-size: 28px; margin-bottom: 8px; }
+        .feature-card h3 { font-size: 12px; color: #1a3a6b; margin: 0 0 6px; }
+        .feature-card p  { font-size: 11px; color: #555; margin: 0; line-height: 1.5; }
+
+        /* ── DASHBOARD (logged in) ──────────────────────────── */
+        .dashboard-header {
+            background: #2a5da8; color: #fff;
+            padding: 12px 14px; margin-bottom: 16px;
+            display: flex; align-items: center; gap: 12px;
         }
+        .dashboard-header img { width: 48px; height: 48px; border: 2px solid #add4ff; object-fit: cover; }
+        .dashboard-header .welcome-text h2 { margin: 0 0 2px; font-size: 16px; }
+        .dashboard-header .welcome-text span { font-size: 11px; color: #c8dcff; }
+        .dashboard-header .logout-btn {
+            margin-left: auto; padding: 6px 14px; background: rgba(255,255,255,0.15);
+            color: #fff; border: 1px solid #add4ff; font-size: 11px; font-weight: bold; cursor: pointer;
+        }
+        .dashboard-header .logout-btn:hover { background: rgba(255,255,255,0.25); }
+
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+        .dash-card { background: #fff; border: 1px solid #4a7fc1; padding: 12px; }
+        .dash-card h4 { font-size: 12px; color: #1a3a6b; margin: 0 0 8px; border-bottom: 1px solid #c0d4f0; padding-bottom: 4px; }
+        .dash-card p, .dash-card li { font-size: 11px; color: #444; line-height: 1.6; }
+        .dash-card ul { margin: 0; padding-left: 16px; }
+        .dash-stat { display: flex; justify-content: space-between; font-size: 11px; padding: 3px 0; border-bottom: 1px solid #e8f0ff; }
+        .dash-stat b { color: #2a5da8; }
+
+        .quick-links { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+        .quick-link {
+            padding: 8px 14px; background: #2a5da8; color: #fff;
+            text-decoration: none; font-size: 11px; font-weight: bold;
+        }
+        .quick-link:hover { background: #1a3a6b; }
+
+        /* Shared hide/show */
+        .guest-view    { display: none; }
+        .loggedin-view { display: none; }
+        .loading-view  { text-align: center; padding: 40px; color: #888; font-size: 12px; }
+
+        footer { font-size: 10px; margin-top: 20px; color: #4a7fc1; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="main-wrapper">
 
-    <!-- FIX 3: Single, clean top nav (removed the duplicate nested one) -->
-    <div class="top-nav">
-        <a href="index.html" style="color: #ffffff;">Home</a> |
-        <a href="browse.html" style="color: #ffffff;">Browse</a> |
-        <a href="search.html" style="color: #ffffff;">Search</a> |
-        <a href="signup.html" style="color: #add4ff;">Sign Up</a> |
-        <a href="login.html" style="color: #ffffff;">Login</a> |
-        <a href="layouts.html" style="color: #ffffff;">Layouts</a> |
-        <a href="profile.html" style="color: #ffffff;">My Profile</a> |
-        <a href="edit_profile.html" style="color: #ffffff;">Edit Profile</a> |
-        <a href="mail.html" style="color: #ffffff;">Mail (0)</a> |
-        <a href="logout.html" style="color: #ffffff;">Logout</a>
+    <!-- ── NAV (changes based on auth state) ── -->
+    <div class="top-nav" id="topNav">
+        <!-- filled by JS -->
     </div>
 
-    <!-- Boss's Status -->
-    <div class="status-box">
-        <b>Boss is:</b> <span style="color: #555;">Thinking about how i can save the Seals</span>
-        <div style="font-size: 10px; color: #999; margin-top: 4px;">Posted: 2 minutes ago</div>
-    </div>
+    <!-- Loading placeholder -->
+    <div class="loading-view" id="loadingView">Loading…</div>
 
-    <div class="profile-columns">
-        <!-- LEFT COLUMN -->
-        <div class="left-side">
-            <div class="profile-name">Boss</div>
+    <!-- ══════════════════════════════════════
+         GUEST VIEW — shown when NOT logged in
+    ══════════════════════════════════════ -->
+    <div class="guest-view" id="guestView">
 
-            <!-- FIX 1: Closed the missing quote on the src attribute -->
-            <img src="https://i.imgur.com/mf9z4RH.jpeg" class="profile-img">
-
-            <p style="font-size:12px;"><b>"I'm just a guy making the world better."</b><br>
-            Male<br>Earth</p>
-
-            <div class="content-box">
-                <div class="box-head">Contacting Boss</div>
-                <div class="box-body">
-                    <table width="100%" style="font-size:11px;">
-                        <tr>
-                            <td><a href="#" class="orange-link">Send Message</a></td>
-                            <td><a href="#" class="orange-link">Add Friend</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#" class="orange-link">Add Favorite</a></td>
-                            <td><a href="#" class="orange-link">Rank Friend</a></td>
-                        </tr>
-                    </table>
-                </div>
+        <div class="guest-hero">
+            <h1>🌿 MyConservationist</h1>
+            <p>A community for people making small changes that add up to something big.</p>
+            <div class="hero-btns">
+                <a href="signup.html" class="hero-btn-primary">Join Free</a>
+                <a href="login.html" class="hero-btn-secondary">Log In</a>
             </div>
+        </div>
 
-            <div class="content-box">
-                <div class="box-head">Boss's Interests</div>
-                <div class="box-body">
-                    <b>General:</b> Composting, Fixing old bikes, Hiking.<br>
-                    <b>Music:</b> Acoustic stuff, anything with birds chirping in the background.
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="icon">👥</div>
+                <h3>Connect</h3>
+                <p>Find people who care about the same causes — oceans, forests, wildlife, and more.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">💡</div>
+                <h3>Share Tips</h3>
+                <p>Post simple green tips anyone can try. Composting, biking, growing food — it all counts.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🎨</div>
+                <h3>Your Profile</h3>
+                <p>Customize your page with layouts, a record player, your top friends, and more.</p>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <div class="box-head">Meet Boss — Your First Friend</div>
+            <div class="box-body" style="display:flex;gap:14px;align-items:flex-start;">
+                <img src="https://i.imgur.com/mf9z4RH.jpeg" style="width:80px;border:1px solid #4a7fc1;padding:3px;background:#fff;">
+                <div>
+                    <b style="color:#1a3a6b;">Boss</b><br>
+                    <span style="font-size:11px;color:#555;">"I'm just a guy making the world better."</span><br><br>
+                    <span style="font-size:11px;">Hi! I started MyConservationist as a school project. Whether you plant one tomato plant or pick up one piece of trash, it all counts. Sign up and I'll be your first friend! 🌱</span><br><br>
+                    <a href="signup.html" class="blue-link">→ Join and add Boss as a friend</a>
                 </div>
             </div>
         </div>
 
-        <!-- RIGHT COLUMN -->
-        <div class="right-side">
-            <div style="border: 2px solid #4a7fc1; padding: 10px; margin-bottom: 20px; font-size: 14px; text-align: center; color: #1a3a6b;">
-                <b>Boss is your first friend on MyConservationist!</b>
+        <div style="text-align:center;font-size:12px;color:#555;padding:10px 0;">
+            Already have an account? <a href="login.html" class="blue-link">Log In here</a>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         LOGGED-IN DASHBOARD
+    ══════════════════════════════════════ -->
+    <div class="loggedin-view" id="loggedinView">
+
+        <!-- Welcome header with avatar + logout -->
+        <div class="dashboard-header">
+            <img src="https://i.imgur.com/mf9z4RH.jpeg" id="dashAvatar" alt="You">
+            <div class="welcome-text">
+                <h2>Welcome back, <span id="dashName">Friend</span>! 👋</h2>
+                <span id="dashEmail"></span>
             </div>
+            <button class="logout-btn" onclick="signOut()">Log Out</button>
+        </div>
 
-            <div class="content-box">
-                <div class="box-head">Boss's Blurbs</div>
-                <!-- FIX 2: Removed the broken/incomplete <div style= that had no value or closing bracket -->
-                <div class="box-body">
-                    <p><span class="orange-link">About me:</span><br>
-                    Hi, I'm Boss. I'm not a scientist or a politician I'm just a regular kid who loves the outdoors. I started this site because of a school project and now were here. A place where we could talk about simple ways to help the environment without it feeling like a chore. Whether it's planting a single tomato plant or picking up one piece of trash on a walk, it all counts!</p>
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <a href="profile.html"      class="quick-link">👤 My Profile</a>
+            <a href="edit_profile.html" class="quick-link">✏️ Edit Profile</a>
+            <a href="mail.html"         class="quick-link">✉️ Mail (2)</a>
+            <a href="browse.html"       class="quick-link">👥 Browse Members</a>
+            <a href="layouts.html"      class="quick-link">🎨 Layouts</a>
+        </div>
 
-                    <p><span class="orange-link">Who I'd like to meet:</span><br>
-                    People who are curious about living a bit greener. If you have a tip for reducing waste, leave me a comment!</p>
-                </div>
+        <!-- Dashboard grid -->
+        <div class="dashboard-grid">
+            <div class="dash-card">
+                <h4>📊 Your Stats</h4>
+                <div class="dash-stat"><span>Friends</span><b>8</b></div>
+                <div class="dash-stat"><span>Profile Views</span><b>42</b></div>
+                <div class="dash-stat"><span>Comments</span><b>5</b></div>
+                <div class="dash-stat"><span>Messages</span><b>2 unread</b></div>
+                <div class="dash-stat"><span>Member Since</span><b>Jan 2026</b></div>
             </div>
-
-            <div class="content-box">
-                <div class="box-head">Boss's Top 8</div>
-                <div class="box-body">
-                    <!-- FIX 5: Fixed placeholder image URLs to include a size -->
-                    <div class="friends-grid">
-                        <div><img src="https://via.placeholder.com/90"><span>RecycleGuy</span></div>
-                        <div><img src="https://via.placeholder.com/90"><span>TreeLover</span></div>
-                        <div><img src="https://via.placeholder.com/90"><span>OceanBlue</span></div>
-                        <div><img src="https://via.placeholder.com/90"><span>CompostJim</span></div>
-                        <div><img src="https://via.placeholder.com/90"><span>Windy</span></div>
-                        <div><img src="https://via.placeholder.com/90"><span>TheBees</span></div>
-                        <div><img src="https://via.placeholder.com/90"><span>SolarGirl</span></div>
-                        <div><img src="https://via.placeholder.com/90"><span>You!</span></div>
-                    </div>
-                </div>
+            <div class="dash-card">
+                <h4>🔔 Recent Activity</h4>
+                <ul>
+                    <li><b>OceanBlue</b> commented on your profile</li>
+                    <li><b>TreeLover</b> sent you a message</li>
+                    <li><b>SolarGirl</b> added you as a friend</li>
+                    <li><b>TheBees</b> liked your status</li>
+                </ul>
             </div>
-
-            <div class="content-box">
-                <div class="box-head">🎵 Boss's EcoTrack</div>
-                <div class="box-body" style="text-align:center;">
-                    <div style="font-size:11px; color:#555; margin-bottom:4px;">Now spinning...</div>
-                    <div class="recordPlayer">
-                        <img class="vinyl" src="https://beta.vinylify.com/wp-content/uploads/2018/05/vinyl-black.png"/>
-                        <img class="vinylCover" src="https://m.media-amazon.com/images/I/81aECQlJWwL._UF894,1000_QL80_.jpg"/>
-                    </div>
-                </div>
+            <div class="dash-card">
+                <h4>💬 Latest Comments</h4>
+                <ul>
+                    <li>"Love what you're doing!" — <b>TreeLover</b></li>
+                    <li>"Picked up 3 bags of trash!" — <b>OceanBlue</b></li>
+                </ul>
+                <br><a href="profile.html" class="blue-link">View all comments →</a>
             </div>
+            <div class="dash-card">
+                <h4>💡 Tip of the Day</h4>
+                <p id="tipOfDay"></p>
+            </div>
+        </div>
 
-            <div class="content-box">
-                <div class="box-head">Boss's Friend Comments</div>
-                <div class="box-body">
-                    <!-- Empty for now -->
+        <!-- Status update -->
+        <div class="content-box">
+            <div class="box-head">Update Your Status</div>
+            <div class="box-body" style="display:flex;gap:8px;">
+                <input type="text" id="statusInput" placeholder="What are you doing right now?" maxlength="140"
+                    style="flex:1;padding:6px 8px;border:1px solid #4a7fc1;font-size:12px;">
+                <button onclick="updateStatus()" style="padding:6px 14px;background:#2a5da8;color:#fff;border:none;font-size:11px;font-weight:bold;cursor:pointer;">Post</button>
+            </div>
+        </div>
+
+        <!-- Boss profile preview -->
+        <div class="content-box">
+            <div class="box-head">🎵 Boss's EcoTrack</div>
+            <div class="box-body" style="text-align:center;">
+                <div style="font-size:11px;color:#555;margin-bottom:4px;">Now spinning...</div>
+                <div class="recordPlayer">
+                    <img class="vinyl" src="https://beta.vinylify.com/wp-content/uploads/2018/05/vinyl-black.png"/>
+                    <img class="vinylCover" src="https://m.media-amazon.com/images/I/81aECQlJWwL._UF894,1000_QL80_.jpg"/>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<center style="font-size:10px; margin-top:20px; color:#4a7fc1;">
-    MyConservationist ©2026 | Built by Boss
-</center>
+    </div><!-- /loggedin-view -->
 
+</div><!-- /main-wrapper -->
+
+<footer>MyConservationist ©2026 | Built by Boss</footer>
+
+<script>
+const TIPS = [
+    "Bring a reusable bag next time you shop — one less plastic bag in the world! 🛍️",
+    "Turn off lights when you leave a room. Small habit, big difference over time. 💡",
+    "Try skipping meat one day this week. Even one day helps reduce your footprint. 🥗",
+    "Pick up one piece of litter on your next walk. Just one. It counts! 🚶",
+    "Fill a shallow dish with water for local bees and birds. They'll thank you. 🐝",
+    "Take a shorter shower today — even 2 minutes less saves gallons of water. 🚿",
+    "Share a green tip with a friend. Change spreads person to person. 🌱",
+];
+
+// ── Main auth check ──────────────────────────────────────────
+onSupabaseReady(async () => {
+    const user = await getUser();
+
+    document.getElementById("loadingView").style.display = "none";
+
+    if (user) {
+        showLoggedIn(user);
+    } else {
+        showGuest();
+    }
+});
+
+function showGuest() {
+    document.getElementById("guestView").style.display = "block";
+    document.getElementById("topNav").innerHTML = `
+        <a href="index.html" style="color:#ffffff;">Home</a> |
+        <a href="browse.html">Browse</a> |
+        <a href="search.html">Search</a> |
+        <a href="signup.html" style="color:#ffdd99;">Sign Up</a> |
+        <a href="login.html">Login</a> |
+        <a href="layouts.html">Layouts</a>
+    `;
+}
+
+function showLoggedIn(user) {
+    document.getElementById("loggedinView").style.display = "block";
+
+    const name = user.user_metadata?.display_name || user.email.split("@")[0];
+    document.getElementById("dashName").textContent  = name;
+    document.getElementById("dashEmail").textContent = user.email;
+
+    // Tip of the day (changes daily)
+    const tip = TIPS[new Date().getDate() % TIPS.length];
+    document.getElementById("tipOfDay").textContent = tip;
+
+    document.getElementById("topNav").innerHTML = `
+        <a href="index.html" style="color:#ffffff;">Home</a> |
+        <a href="browse.html">Browse</a> |
+        <a href="search.html">Search</a> |
+        <a href="layouts.html">Layouts</a> |
+        <a href="profile.html">My Profile</a> |
+        <a href="edit_profile.html">Edit Profile</a> |
+        <a href="mail.html">Mail (2)</a> |
+        <a href="#" onclick="signOut(); return false;" style="color:#ffaaaa;">Logout</a>
+    `;
+}
+
+function updateStatus() {
+    const val = document.getElementById("statusInput").value.trim();
+    if (!val) return;
+    alert("Status updated: "" + val + """);
+    document.getElementById("statusInput").value = "";
+}
+</script>
 </body>
 </html>
