@@ -5,326 +5,205 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyConservationist | Sign Up</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Base Retro Styling */
+        body { 
+            background-color: #ccd9f0; 
+            font-family: Verdana, Arial, Helvetica, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
         }
-        
-        body {
-            background-color: #f8f9fa;
-            color: #333;
-            line-height: 1.6;
+
+        .main-wrapper { 
+            width: 800px; 
+            margin: 0 auto; 
+            background: #eef3fb; 
+            border: 1px solid #a0b8e0; 
+            padding: 15px; 
+            box-shadow: 2px 2px 5px rgba(0,0,100,0.12); 
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+
+        /* Top Navigation (Matching Index) */
+        .top-nav { 
+            background: #1a3a6b; 
+            color: #fff; 
+            padding: 6px; 
+            text-align: center; 
+            font-size: 11px; 
+            margin-bottom: 20px; 
         }
-        
-        /* Top Navigation */
-        .top-nav {
-            background-color: #add4ff;
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        .top-nav a { color: #add4ff; text-decoration: none; margin: 0 8px; font-weight: bold; }
+        .top-nav a:hover { text-decoration: underline; }
+
+        /* Content Box Styling */
+        .content-box { 
+            border: 1px solid #4a7fc1; 
+            margin: 0 auto 15px; 
+            max-width: 500px; 
         }
-        
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .box-head { 
+            background: #2a5da8; 
+            color: #fff; 
+            padding: 4px 8px; 
+            font-weight: bold; 
+            font-size: 13px; 
         }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a5276;
-            text-decoration: none;
+        .box-body { 
+            padding: 20px; 
+            font-size: 12px; 
+            line-height: 1.5; 
+            background: #f0f5ff; 
         }
-        
-        .nav-links {
-            display: flex;
-            gap: 25px;
-        }
-        
-        .nav-links a {
-            color: #1a5276;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color: #0d3c5c;
-            text-decoration: underline;
-        }
-        
-        /* Main Content */
-        .main-content {
-            min-height: calc(100vh - 180px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 0;
-        }
-        
-        .signup-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-        }
-        
-        .page-title {
-            color: #1a5276;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
-        
+
+        /* Form Styling */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
-        
         label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
+            font-weight: bold;
+            color: #1a3a6b;
+            margin-bottom: 4px;
         }
-        
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
+        input {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            padding: 6px;
+            border: 1px solid #4a7fc1;
+            font-size: 12px;
+            font-family: Verdana, sans-serif;
         }
         
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="password"]:focus {
-            border-color: #add4ff;
-            outline: none;
-        }
-        
-        .error-message {
-            color: #e74c3c;
-            font-size: 14px;
-            margin-top: 5px;
-            display: none;
-        }
-        
-        .password-requirements {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
-        
-        /* Create Account Button */
-        .create-account-btn {
-            background-color: #add4ff;
-            color: #1a5276;
-            border: none;
-            padding: 14px 20px;
-            width: 100%;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: 600;
+        .signup-btn {
+            background: #2a5da8;
+            color: #fff;
+            border: 1px solid #1a3a6b;
+            padding: 8px 20px;
+            font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s;
+            width: 100%;
             margin-top: 10px;
         }
-        
-        .create-account-btn:hover {
-            background-color: #8bc0ff;
+        .signup-btn:hover {
+            background: #1a3a6b;
         }
-        
+
+        .error-message {
+            color: #cc0000;
+            font-size: 10px;
+            margin-top: 2px;
+            display: none;
+            font-weight: bold;
+        }
+
         .login-link {
             text-align: center;
-            margin-top: 25px;
-            color: #666;
+            font-size: 11px;
+            margin-top: 15px;
+            color: #555;
         }
-        
-        .login-link a {
-            color: #1a5276;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-        
+        .blue-link { color: #1a6bbf; font-weight: bold; text-decoration: none; }
+        .blue-link:hover { text-decoration: underline; }
+
         /* Success Message */
-        .success-message {
-            background-color: #e8f5e8;
-            border-left: 4px solid #2ecc71;
-            padding: 20px;
-            margin-top: 30px;
-            border-radius: 5px;
+        .success-box {
+            background: #e8f5e8;
+            border: 1px solid #2ecc71;
+            padding: 15px;
             display: none;
+            margin-top: 15px;
         }
-        
-        .success-message h3 {
-            color: #27ae60;
-            margin-bottom: 10px;
-        }
-        
-        /* Footer */
-        footer {
-            background-color: #1a5276;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 40px;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .nav-links {
-                gap: 15px;
-            }
-            
-            .signup-container {
-                padding: 30px 20px;
-            }
+
+        footer { 
+            font-size: 10px; 
+            margin-top: 20px; 
+            color: #4a7fc1; 
+            text-align: center; 
         }
     </style>
 </head>
 <body>
-    <nav class="top-nav">
-        <div class="container nav-content">
-            <a href="index.html" class="logo">MyConservationist</a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="browse.html">Browse</a>
-                <a href="login.htmm">Log In</a>
+
+<div class="main-wrapper">
+    <div class="top-nav">
+        <a href="index.html">Home</a> |
+        <a href="browse.html">Browse</a> |
+        <a href="search.html">Search</a> |
+        <a href="signup.html" style="color:#ffffff;">Sign Up</a> |
+        <a href="login.html">Login</a>
+    </div>
+
+    <div class="content-box">
+        <div class="box-head">🌿 Join MyConservationist</div>
+        <div class="box-body">
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="displayName">Display Name</label>
+                    <input type="text" id="displayName" placeholder="e.g. TreeLover99">
+                    <div class="error-message" id="name-error">Please enter a name</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="email@example.com">
+                    <div class="error-message" id="email-error">Invalid email address</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password">
+                    <div style="font-size: 10px; color: #666;">(Min 8 characters)</div>
+                    <div class="error-message" id="password-error">Too short!</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword">
+                    <div class="error-message" id="confirm-error">Passwords must match</div>
+                </div>
+
+                <button type="submit" class="signup-btn">Create My Account</button>
+            </form>
+
+            <div class="login-link">
+                Already a member? <a href="login.html" class="blue-link">Log In here</a>
+            </div>
+
+            <div class="success-box" id="success-message">
+                <b style="color: #27ae60;">📬 Check your email!</b><br>
+                <span style="font-size: 11px;">We sent a link to <span id="user-email"></span>. 
+                Activate your account to start picking up trash with us!</span>
             </div>
         </div>
-    </nav>
-    
-    <main class="main-content">
-        <div class="container">
-            <div class="signup-container">
-                <h1 class="page-title">🌿 Join MyConservationist</h1>
-                
-                <form id="signup-form">
-                    <div class="form-group">
-                        <label for="displayName">Display Name</label>
-                        <input type="text" id="displayName" name="displayName" placeholder="Enter your display name">
-                        <div class="error-message" id="name-error">Please enter a display name</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="Enter your email address">
-                        <div class="error-message" id="email-error">Please enter a valid email address</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Create a password">
-                        <div class="password-requirements">Must be at least 8 characters.</div>
-                        <div class="error-message" id="password-error">Password must be at least 8 characters</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="confirmPassword">Confirm Password</label>
-                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password">
-                        <div class="error-message" id="confirm-error">Passwords do not match</div>
-                    </div>
-                    
-                    <button type="submit" class="create-account-btn">Create Account</button>
-                </form>
-                
-                <div class="login-link">
-                    Already have an account? <a href="login.html">Log In</a>
-                </div>
-                
-                <div class="success-message" id="success-message">
-                    <h3>📬 Check your email!</h3>
-                    <p>We sent a confirmation link to <span id="user-email"></span></p>
-                    <p>Click the link in that email to activate your account, then come back and log in.</p>
-                    <p>Didn't get it? Check your spam folder, or <a href="" id="resend-link">resend the email</a>.</p>
-                </div>
-            </div>
-        </div>
-    </main>
-    
-    <footer>
-        <div class="container">
-            <p>MyConservationist ©2026 | Built by Boss</p>
-        </div>
-    </footer>
-    
-    <script>
-        document.getElementById('signup-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Reset error messages
-            document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
-            
-            // Get form values
-            const displayName = document.getElementById('displayName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            let isValid = true;
-            
-            // Validate display name
-            if (!displayName) {
-                document.getElementById('name-error').style.display = 'block';
-                isValid = false;
-            }
-            
-            // Validate email
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                document.getElementById('email-error').style.display = 'block';
-                isValid = false;
-            }
-            
-            // Validate password
-            if (password.length < 8) {
-                document.getElementById('password-error').style.display = 'block';
-                isValid = false;
-            }
-            
-            // Validate password confirmation
-            if (password !== confirmPassword) {
-                document.getElementById('confirm-error').style.display = 'block';
-                isValid = false;
-            }
-            
-            // If form is valid, show success message
-            if (isValid) {
-                document.getElementById('user-email').textContent = email;
-                document.getElementById('success-message').style.display = 'block';
-                
-                // Scroll to success message
-                document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
-            }
-        });
+    </div>
+</div>
+
+<footer>MyConservationist ©2026 | Built by Boss</footer>
+
+<script>
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        // Add resend email functionality
-        document.getElementById('resend-link').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Confirmation email resent! Please check your inbox (and spam folder).');
-        });
-    </script>
+        // Reset
+        document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+        
+        const displayName = document.getElementById('displayName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        let isValid = true;
+
+        if (!displayName) { document.getElementById('name-error').style.display = 'block'; isValid = false; }
+        if (!email.includes('@')) { document.getElementById('email-error').style.display = 'block'; isValid = false; }
+        if (password.length < 8) { document.getElementById('password-error').style.display = 'block'; isValid = false; }
+        if (password !== confirmPassword) { document.getElementById('confirm-error').style.display = 'block'; isValid = false; }
+
+        if (isValid) {
+            document.getElementById('user-email').textContent = email;
+            document.getElementById('signup-form').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+        }
+    });
+</script>
+
 </body>
 </html>
