@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyConservationist | Confirm Your Email</title>
+    <script src="auth.js" onerror="window._authJsMissing=true"></script>
+    <style>
+        body {
+            background-color: #ccd9f0;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            margin: 0; padding: 40px 20px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .top-nav {
+            background: #1a3a6b; color: #fff; padding: 6px;
+            text-align: center; font-size: 11px;
+            width: 100%; max-width: 480px; box-sizing: border-box;
+            margin-bottom: 30px;
+        }
+        .top-nav a { color: #add4ff; text-decoration: none; margin: 0 8px; font-weight: bold; }
+
+        .card {
+            width: 100%; max-width: 480px;
+            background: #eef3fb; border: 1px solid #a0b8e0;
+            box-shadow: 2px 2px 8px rgba(0,0,100,0.12);
+            text-align: center;
+        }
+        .card-head {
+            background: #2a5da8; color: #fff;
+            padding: 12px 16px; font-weight: bold; font-size: 15px;
+        }
+        .card-body { padding: 32px 28px; }
+
+        /* ── States ── */
+        .state { display: none; }
+        .state.active { display: block; }
+
+        /* Loading */
+        .spinner-ring {
+            width: 56px; height: 56px;
+            border: 5px solid #c0d4f0;
+            border-top-color: #2a5da8;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Success */
+        .big-icon { font-size: 60px; margin-bottom: 14px; }
+        h2 { color: #1a3a6b; font-size: 17px; margin: 0 0 10px; }
+        p  { font-size: 12px; color: #555; line-height: 1.8; margin: 0 0 20px; }
+
+        .btn {
+            display: inline-block; padding: 11px 30px;
+            background: #2a5da8; color: #fff;
+            font-size: 13px; font-weight: bold;
+            text-decoration: none; border: none; cursor: pointer;
+        }
+        .btn:hover { background: #1a3a6b; }
+        .btn-outline {
+            display: inline-block; padding: 10px 24px;
+            background: #fff; color: #2a5da8;
+            font-size: 12px; font-weight: bold;
+            text-decoration: none; border: 1px solid #4a7fc1;
+            margin-left: 8px;
+        }
+        .btn-outline:hover { background: #ddeeff; }
+
+        /* Profile preview card shown on success */
+        .profile-mini {
+            display: flex; align-items: center; gap: 14px;
+            background: #f0f5ff; border: 1px solid #4a7fc1;
+            padding: 12px 16px; margin: 0 0 24px; text-align: left;
+        }
+        .profile-mini img {
+            width: 54px; height: 54px;
+            border: 2px solid #4a7fc1; object-fit: cover;
+        }
+        .profile-mini .pname { font-weight: bold; color: #1a3a6b; font-size: 13px; }
+        .profile-mini .pemail { font-size: 11px; color: #888; }
+
+        /* Error */
+        .error-box {
+            background: #fdecea; border: 1px solid #e57373;
+            padding: 14px; color: #b71c1c; font-size: 12px;
+            margin-bottom: 20px; line-height: 1.7;
+        }
+
+        /* Confetti canvas */
+        #confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
+
+        footer { font-size: 10px; margin-top: 24px; color: #4a7fc1; }
+    </style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="top-nav">
+    <a href="index.html">Home</a> |
+    <a href="browse.html">Browse</a> |
+    <a href="login.html">Log In</a>
+</div>
+
+<div class="card">
+    <div class="card-head">🌿 MyConservationist — Email Confirmation</div>
+    <div class="card-body">
+
+        <!-- LOADING -->
+        <div class="state active" id="stateLoading">
+            <div class="spinner-ring"></div>
+            <h2>Verifying your email…</h2>
+            <p>Just a moment while we confirm your account.</p>
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="state" id="stateSuccess">
+            <div class="big-icon">🎉</div>
+            <h2>You're confirmed!</h2>
+            <p>Your email has been verified. Welcome to MyConservationist!</p>
+            <div class="profile-mini" id="profileMini" style="display:none;">
+                <img src="https://i.imgur.com/mf9z4RH.jpeg" id="miniAvatar" alt="You">
+                <div>
+                    <div class="pname" id="miniName">Friend</div>
+                    <div class="pemail" id="miniEmail"></div>
+                </div>
+            </div>
+            <a href="index.html" class="btn">Go to My Dashboard →</a>
+            <a href="profile.html" class="btn-outline">View Profile</a>
+        </div>
+
+        <!-- ALREADY CONFIRMED -->
+        <div class="state" id="stateAlready">
+            <div class="big-icon">✅</div>
+            <h2>Already verified!</h2>
+            <p>Your email is already confirmed and you're logged in. Head to your dashboard!</p>
+            <a href="index.html" class="btn">Go to Dashboard →</a>
+        </div>
+
+        <!-- ERROR -->
+        <div class="state" id="stateError">
+            <div class="big-icon">😕</div>
+            <h2>Something went wrong</h2>
+            <div class="error-box" id="errorMsg">The confirmation link may have expired or already been used.</div>
+            <p>Try signing up again or request a new confirmation email.</p>
+            <a href="signup.html" class="btn">Sign Up Again</a>
+            <a href="login.html" class="btn-outline">Log In</a>
+        </div>
+
+        <!-- NOT LOGGED IN (link opened without token) -->
+        <div class="state" id="stateNoToken">
+            <div class="big-icon">📬</div>
+            <h2>Check your email!</h2>
+            <p>
+                We sent you a confirmation link when you signed up.<br>
+                Open that email and click the link to activate your account.
+            </p>
+            <p style="font-size:11px;color:#888;">
+                Can't find it? Check your spam folder.<br>
+                Still nothing? <a href="signup.html" style="color:#2a5da8;">Sign up again</a> to get a new link.
+            </p>
+            <a href="login.html" class="btn-outline">Back to Login</a>
+        </div>
+
+    </div>
+</div>
+
+<footer>MyConservationist ©2026 | Built by Boss</footer>
+
+<script>
+// ── Show/hide states ──────────────────────────────────────────
+function show(id) {
+    document.querySelectorAll('.state').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+// ── Confetti burst ────────────────────────────────────────────
+function launchConfetti() {
+    const canvas = document.getElementById('confetti');
+    const ctx    = canvas.getContext('2d');
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces = Array.from({ length: 120 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * -canvas.height,
+        w: 8 + Math.random() * 8,
+        h: 4 + Math.random() * 5,
+        color: ['#2a5da8','#add4ff','#4caf50','#ffd740','#ff7043','#e91e63'][Math.floor(Math.random()*6)],
+        rot: Math.random() * 360,
+        speed: 2 + Math.random() * 4,
+        drift: (Math.random() - 0.5) * 2,
+        spin:  (Math.random() - 0.5) * 6,
+    }));
+
+    let frame;
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+        pieces.forEach(p => {
+            p.y   += p.speed;
+            p.x   += p.drift;
+            p.rot += p.spin;
+            if (p.y < canvas.height + 20) alive = true;
+            ctx.save();
+            ctx.translate(p.x + p.w/2, p.y + p.h/2);
+            ctx.rotate(p.rot * Math.PI / 180);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+            ctx.restore();
+        });
+        if (alive) frame = requestAnimationFrame(draw);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    draw();
+    setTimeout(() => { cancelAnimationFrame(frame); ctx.clearRect(0,0,canvas.width,canvas.height); }, 4000);
+}
+
+// ── Main logic ────────────────────────────────────────────────
+// Supabase puts the token in the URL hash after the user clicks the email link.
+// e.g. confirm.html#access_token=...&type=signup
+function getHashParams() {
+    const hash = window.location.hash.substring(1);
+    return Object.fromEntries(new URLSearchParams(hash));
+}
+
+async function handleConfirmation() {
+    const params = getHashParams();
+
+    // No token in URL at all — user opened page directly
+    if (!params.access_token && !params.error) {
+        // Check if they're already logged in
+        if (typeof getUser === 'function') {
+            const user = await getUser().catch(() => null);
+            if (user) { show('stateAlready'); return; }
+        }
+        show('stateNoToken');
+        return;
+    }
+
+    // Supabase returned an error in the URL
+    if (params.error) {
+        document.getElementById('errorMsg').textContent =
+            params.error_description?.replace(/\+/g,' ') || 'The confirmation link is invalid or has expired.';
+        show('stateError');
+        return;
+    }
+
+    // We have a token — let Supabase process it
+    if (window._authJsMissing || typeof window._supa === 'undefined') {
+        // auth.js not loaded — show success anyway since Supabase already confirmed via URL
+        show('stateSuccess');
+        launchConfetti();
+        return;
+    }
+
+    try {
+        // Set the session from the URL token
+        const { data, error } = await window._supa.auth.setSession({
+            access_token:  params.access_token,
+            refresh_token: params.refresh_token || ''
+        });
+
+        if (error) throw error;
+
+        const user = data?.user;
+        if (user) {
+            const name = user.user_metadata?.display_name || user.email.split('@')[0];
+            document.getElementById('miniName').textContent  = name;
+            document.getElementById('miniEmail').textContent = user.email;
+            document.getElementById('profileMini').style.display = 'flex';
+        }
+
+        show('stateSuccess');
+        launchConfetti();
+
+        // Clean the token from the URL so refreshing doesn't reprocess it
+        history.replaceState(null, '', window.location.pathname);
+
+    } catch (err) {
+        document.getElementById('errorMsg').textContent = err.message || 'Confirmation failed. The link may have expired.';
+        show('stateError');
+    }
+}
+
+// Wait for auth.js / Supabase, then run
+if (typeof onSupabaseReady === 'function') {
+    onSupabaseReady(handleConfirmation);
+} else {
+    // auth.js missing — still handle the URL token visually
+    setTimeout(handleConfirmation, 300);
+}
+</script>
+</body>
+</html>
