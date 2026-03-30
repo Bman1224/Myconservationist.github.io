@@ -132,9 +132,13 @@ async function doSignup() {
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>Creating account…';
 
-    onSupabaseReady(async () => {
-        const { data, error } = await signUp(email, pass, name);
+    // Wait until Supabase is fully ready
+await new Promise(resolve => onSupabaseReady(resolve));
 
+console.log("Supabase is ready, sending signup...");
+
+const { data, error } = await signUp(email, pass, name);
+console.log("Signup result:", { data, error });
         if (error) {
             showMsg(error.message, "error");
             btn.disabled = false;
