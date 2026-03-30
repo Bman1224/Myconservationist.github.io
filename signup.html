@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyConservationist | Sign Up</title>
    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
     <style>
         /* Base Retro Styling */
         body { 
@@ -180,7 +181,6 @@
 <footer>MyConservationist ©2026 | Built by Boss</footer>
 
 <script>
-   // 1. Check if Supabase is loaded from auth.js
 document.getElementById('signup-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -195,7 +195,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
     
     let isValid = true;
 
-    // --- Basic Validation ---
+    // Basic Validation
     if (!displayName) { document.getElementById('name-error').style.display = 'block'; isValid = false; }
     if (!email.includes('@')) { document.getElementById('email-error').style.display = 'block'; isValid = false; }
     if (password.length < 8) { document.getElementById('password-error').style.display = 'block'; isValid = false; }
@@ -203,32 +203,18 @@ document.getElementById('signup-form').addEventListener('submit', async function
 
     if (!isValid) return;
 
-    // --- Supabase Integration ---
     try {
-        // Change button text to show "loading"
         const btn = e.target.querySelector('button');
-        const originalBtnText = btn.textContent;
         btn.textContent = "Creating Account...";
         btn.disabled = true;
 
-        // Call the Supabase signup function
-        // We pass 'display_name' inside 'options.data' so it's saved to the user's profile
-        const { data, error } = await supabase.auth.signUp({
-            email: email,
-            password: password,
-            options: {
-                data: {
-                    display_name: displayName
-                }
-            }
-        });
+        const { data, error } = await signUp(email, password, displayName);
 
         if (error) {
             alert("Error: " + error.message);
-            btn.textContent = originalBtnText;
+            btn.textContent = "Create My Account";
             btn.disabled = false;
         } else {
-            // Success! Hide form and show the retro success box
             document.getElementById('user-email').textContent = email;
             document.getElementById('signup-form').style.display = 'none';
             document.getElementById('success-message').style.display = 'block';
